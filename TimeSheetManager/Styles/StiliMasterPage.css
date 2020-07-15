@@ -1,0 +1,546 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+    width: 90%;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: small;
+}
+
+input[type=submit]:focus, input[type=button]:focus {
+    outline: none;
+}
+
+#Header {
+    box-shadow: 0 2px 10px 2px #808080;
+}
+
+#PnlMenu {
+    box-shadow: -4px 5px 10px 2px #808080;
+}
+
+#Utente {
+    font-size: large;
+    display: inline-block;
+    position: relative;
+    left: 50px;
+    border-left: 1px solid white;
+    padding-left: 5px;
+    height: 80px;
+    vertical-align: middle;
+}
+
+#Titolo {
+    display: inline-block;
+    position: relative;
+    left: 5px;
+    vertical-align: middle;
+}
+
+#TastoMenu {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    vertical-align: middle;
+    top: 10px;
+}
+
+#ImgMenu {
+    cursor:pointer;
+}
+
+#TastoMenu #ImgBtnMenu:focus {
+    outline: none;
+}
+
+.Menu {
+    border-left: 3px solid rgb(21, 101, 192);
+    background-color: rgba(21, 101, 192, 0.9);
+    position: absolute;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.GestioneContratti {
+    border: thin solid rgb(156, 39, 176);
+    background-color: rgb(156, 39, 176);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneContratti:hover {
+        background-color: white;
+        color: rgb(156, 39, 176);
+    }
+
+.GestioneAziende {
+    border: thin solid rgb(33, 150, 243);
+    background-color: rgb(33, 150, 243);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneAziende:hover {
+        background-color: white;
+        color: rgb(33, 150, 243);
+    }
+
+.GestioneFigure {
+    border: thin solid rgb(139, 195, 74);
+    background-color: rgb(139, 195, 74);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneFigure:hover {
+        background-color: white;
+        color: rgb(139, 195, 74);
+    }
+
+.GestioneRisorse {
+    border: thin solid rgb(255, 193, 7);
+    background-color: rgb(255, 193, 7);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneRisorse:hover {
+        background-color: white;
+        color: rgb(255, 193, 7);
+    }
+
+.GestioneProgetti {
+    border: thin solid rgb(255, 87, 34);
+    background-color: rgb(255, 87, 34);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneProgetti:hover {
+        background-color: white;
+        color: rgb(255, 87, 34);
+    }
+
+.GestioneTask {
+    border: thin solid rgb(103,58,183);
+    background-color: rgb(103,58,183);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneTask:hover {
+        background-color: white;
+        color: rgb(103,58,183);
+    }
+
+.GestioneTimeSheet {
+    border: thin solid rgb(63,81,181);
+    background-color: rgb(63,81,181);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneTimeSheet:hover {
+        background-color: white;
+        color: rgb(63,81,181);
+    }
+
+.GestioneValidazione {
+    border: thin solid rgb(255, 152, 0);
+    background-color: rgb(255, 152, 0);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+    .GestioneValidazione:hover {
+        background-color: white;
+        color: rgb(255, 152, 0);
+    }
+
+.GestioneConsolidamento {
+    border: thin solid rgb(0, 150, 136);
+    background-color: rgb(0, 150, 136);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+    .GestioneConsolidamento:hover {
+        background-color: white;
+        color: rgb(0, 150, 136);
+    }
+
+.DashBoard {
+    border: thin solid rgb(194, 24, 91);
+    background-color: rgb(194, 24, 91);
+    text-decoration: none;
+    width: 200px;
+    height: 60px;
+    color: White;
+    font-weight: bolder;
+    margin-top: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+    .DashBoard:hover {
+        background-color: white;
+        color: rgb(194, 24, 91);
+    }
+
+.HeaderDefault {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(21, 101, 192);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneAziende {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(33, 150, 243);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneFigure {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(139, 195, 74);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneRisorse {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(255, 193, 7);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneContratti {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(156, 39, 176);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneTimesheet {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(63, 81, 181);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneTask {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(103, 58, 183);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneProgetti {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(255, 87, 34);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneValidazione {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(255, 152, 0);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderGestioneConsolidamento {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(0, 150, 136);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.HeaderDashBoard {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    background-color: rgb(194, 24, 91);
+    font-size: xx-large;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+.Testo {
+    border: thin solid #808080;
+}
+
+.TestoDashedMedium {
+    display: inline-block;
+    border: dashed medium #808080;
+    padding: 2px;
+    margin-bottom: 2px;
+}
+
+.MenuDefault {
+    border-left: 3px solid rgb(21, 101, 192);
+    background-color: rgba(21, 101, 192, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneAziende {
+    border-left: 3px solid rgb(33, 150, 243);
+    background-color: rgba(33, 150, 243, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneFigure {
+    border-left: 3px solid rgb(139,195,74);
+    background-color: rgba(139, 195, 74, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneRisorse {
+    border-left: 3px solid rgb(255, 193, 7);
+    background-color: rgba(255, 193, 7, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneContratti {
+    border-left: 3px solid rgb(156, 39, 176);
+    background-color: rgba(156, 39, 176, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneTimesheet {
+    border-left: 3px solid rgb(63, 81, 181);
+    background-color: rgba(63, 81, 181, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneTask {
+    border-left: 3px solid rgb(103, 58, 183);
+    background-color: rgba(103, 58, 183, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneProgetti {
+    border-left: 3px solid rgb(255, 87, 34);
+    background-color: rgba(255, 87, 34, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneValidazione {
+    border-left: 3px solid rgb(255, 152, 0);
+    background-color: rgba(255, 152, 0, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuGestioneConsolidamento {
+    border-left: 3px solid rgb(0, 150, 136);
+    background-color: rgba(0, 150, 136, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.MenuDashBoard {
+    border-left: 3px solid rgb(194,24,91);
+    background-color: rgba(194, 24, 91, 0.8);
+    position: fixed;
+    z-index: 100;
+    width: 300px;
+    right: 0px;
+    bottom: 0px;
+    top: 80px;
+    text-align: center;
+    color: #FFFFFF;
+}

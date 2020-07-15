@@ -1,0 +1,92 @@
+﻿.BottoneNuovo {
+    border: thin solid #00FF00;
+    background-color: #00FF00;
+    text-decoration: none;
+    width: 200px;
+    height: 200px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.BottoneCerca {
+    border: thin solid #0033CC;
+    background-color: #0033CC;
+    text-decoration: none;
+    width: 560px;
+    height: 40px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+}
+
+.BottonePulisci {
+    border: thin solid #CC0066;
+    background-color: #CC0066;
+    text-decoration: none;
+    width: 200px;
+    height: 200px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#Contenitore {
+    position: absolute;
+    top: 101px;
+    right: 0px;
+    left: 0px;
+}
+
+#ParametriRicerca {
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    width: 50%;
+    height: 250px;
+}
+
+#TastiNuovoPulisci {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 50%;
+    height: 250px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#RisultatiRicerca {
+    position: absolute;
+    top: 250px;
+    left: 5px;
+    right: 5px;
+    overflow: auto;
+}
+
+.BottoneModificaInGriglia {
+    border: thin solid #9900CC;
+    background-color: #9900CC;
+    text-decoration: none;
+    width: 100px;
+    height: 25px;
+    color: White;
+    cursor: pointer;
+}
+
+.BottoneEliminanInGriglia {
+    border: thin solid #FF0000;
+    background-color: #FF0000;
+    text-decoration: none;
+    width: 100px;
+    height: 25px;
+    color: White;
+    cursor: pointer;
+}

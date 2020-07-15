@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eaef89aa0e9a4ba287492b5683d70b78" Name="Diagram1" ZoomLevel="89">
+        <EntityTypeShape EntityType="TimesheetModel.Aziende" Width="1.5" PointX="6" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.Consolidamento" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.Contratti" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.FigureProfessionali" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.PreventivoTask" Width="1.5" PointX="8.25" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.Progetti" Width="1.5" PointX="8.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.Risorse" Width="1.5" PointX="8.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.TasksLavorati" Width="1.5" PointX="12.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimesheetModel.R_Risorse_FigureProfessionali" Width="1.5" PointX="5.25" PointY="15.625" IsExpanded="true" />
+        <AssociationConnector Association="TimesheetModel.FK_Risorse_Aziende" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_Consolidamento_Contratti" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_Consolidamento_FigureProfessionali" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_Consolidamento_Risorse" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_ConfigFigureProfessionali_Contratti" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_PreventivoTask_FigureProfessionali" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_R_Risorse_FigureProfessionali_FigureProfessionali" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_Risorse_FigureProfessionali" ManuallyRouted="false" />
+        <AssociationConnector Association="TimesheetModel.FK_R_Risorse_FigureProfessionali_Risorse" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TimesheetModel.Tasks" Width="1.5" PointX="10.5" PointY="15.5" />
+        <EntityTypeShape EntityType="TimesheetModel.TimeSheet" Width="1.5" PointX="10.5" PointY="8.75" />
+        <AssociationConnector Association="TimesheetModel.FK_TimeSheet_FigureProfessionali" />
+        <AssociationConnector Association="TimesheetModel.FK_PreventivoTask_Tasks" />
+        <AssociationConnector Association="TimesheetModel.FK_Tasks_Progetti" />
+        <AssociationConnector Association="TimesheetModel.FK_TimeSheet_Risorse" />
+        <AssociationConnector Association="TimesheetModel.FK_Tasks_Tasks_Padre_Figlio" />
+        <AssociationConnector Association="TimesheetModel.FK_TasksLavorati_Tasks" />
+        <AssociationConnector Association="TimesheetModel.FK_TasksLavorati_TasksLavorati" />
+        <EntityTypeShape EntityType="TimesheetModel.ConsolidamentoSemestre" Width="1.5" PointX="3" PointY="7.75" />
+        <AssociationConnector Association="TimesheetModel.ConsolidamentoSemestre_FK_Fattura_Contratti" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

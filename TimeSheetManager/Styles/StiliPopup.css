@@ -1,0 +1,78 @@
+﻿.ModalSfondo {
+    z-index: 10;
+    background-color: #0000FF;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+
+.ModalContenutoMessaggio {
+    border: 1px solid #000000;
+    position: relative;
+    top: 50px;
+    width: 600px;
+    height: 300px;
+    text-align: center;
+    background: #FFFFFF;
+}
+
+.ModalContenutoDatiRisorse {
+    border: 1px solid #000000;
+    position: relative;
+    top: 50px;
+    width: 600px;
+    height: 400px;
+    text-align: center;
+    background: #FFFFFF;
+}
+
+.Titolo {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 20px;
+    background-color: #0000FF;
+    text-align: center;
+    color: White;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.BottoneSalva {
+    border: thin solid #00CC00;
+    background-color: #00CC00;
+    text-decoration: none;
+    width: 100px;
+    height: 50px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+}
+
+.BottoneChiudi {
+    border: thin solid #FF0000;
+    background-color: #FF0000;
+    text-decoration: none;
+    width: 100px;
+    height: 50px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+}
+
+.CampiObbligatori {
+    Color: Red;
+}
+
+/* Gestione task */
+.ModalContenutoGestioneTask {
+    background: rgb(197,202,233);
+    border: 1px solid #000000;
+    position: relative;
+    top: 50px;
+    width: 1024px;
+    height: 600px;
+    text-align: center;
+}

@@ -1,0 +1,1265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TimesheetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aziende">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Descrizione" Type="nvarchar" MaxLength="256" />
+          <Property Name="Indirizzo" Type="nvarchar" MaxLength="512" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Consolidamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contratto_FK" Type="int" Nullable="false" />
+          <Property Name="Anno" Type="int" Nullable="false" />
+          <Property Name="Mese" Type="int" Nullable="false" />
+          <Property Name="Risorse_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Nominativo" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FigureProfessionali_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="ErogatoTot" Type="float" Nullable="false" />
+          <Property Name="ErogatoInFattura" Type="float" Nullable="false" />
+          <Property Name="ErogatoInGaranzia" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConsolidamentoSemestre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contratto_FK" Type="int" Nullable="false" />
+          <Property Name="Anno" Type="int" Nullable="false" />
+          <Property Name="Semestre" Type="int" Nullable="false" />
+          <Property Name="Aziende_FK" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="FiguraProfessionale" Type="nvarchar" MaxLength="256" />
+          <Property Name="Tariffa" Type="float" Nullable="false" />
+          <Property Name="ErogatoTot" Type="float" Nullable="false" />
+          <Property Name="ErogatoInFattura" Type="float" Nullable="false" />
+          <Property Name="ErogatoInGaranzia" Type="float" Nullable="false" />
+          <Property Name="Importo" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contratti">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Numero" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Anno" Type="int" Nullable="false" />
+          <Property Name="Descizione" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Budget" Type="money" Nullable="false" />
+          <Property Name="Default" Type="bit" />
+          <Property Name="StipulatoDa" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="FigureProfessionali">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Descrizione" Type="nvarchar" MaxLength="256" />
+          <Property Name="TariffaGiornaliera" Type="money" Nullable="false" />
+          <Property Name="NumeroGiornatePreviste" Type="int" />
+          <Property Name="Contratti_Fk" Type="int" Nullable="false" />
+          <Property Name="Visibile" Type="bit" />
+          <Property Name="DescrizioneBreve" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="PreventivoTask">
+          <Key>
+            <PropertyRef Name="Task_FK" />
+            <PropertyRef Name="FigureProfessionali_FK" />
+          </Key>
+          <Property Name="Task_FK" Type="int" Nullable="false" />
+          <Property Name="FigureProfessionali_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="PreventivoGGUU" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Progetti">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="Nome" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Descrizione" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Valido" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Timesheet.dbo.R_Risorse_FigureProfessionali' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="R_Risorse_FigureProfessionali">
+          <Key>
+            <PropertyRef Name="CodiceRisorsa_FK" />
+            <PropertyRef Name="CodiceFiguraProfessionale_FK" />
+            <PropertyRef Name="RuoloDefault" />
+          </Key>
+          <Property Name="CodiceRisorsa_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="CodiceFiguraProfessionale_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="RuoloDefault" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Risorse">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Nominativo" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="CostoGiornaliero" Type="money" />
+          <Property Name="Aziende_FK" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="FiguraProfessionaleDefault_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="Ingresso" Type="time" Precision="7" />
+          <Property Name="Uscita" Type="time" Precision="7" />
+          <Property Name="IsCustomer" Type="bit" Nullable="false" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroTask" Type="int" Nullable="false" />
+          <Property Name="Progetto_FK" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Titolo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DataRichiesta" Type="date" Nullable="false" />
+          <Property Name="PreventivoGGUU" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="InGaranzia" Type="bit" Nullable="false" />
+          <Property Name="PreventivoInviato" Type="bit" Nullable="false" />
+          <Property Name="Terminato" Type="bit" Nullable="false" />
+          <Property Name="Descrizione" Type="nvarchar(max)" />
+          <Property Name="FiglioDi" Type="int" />
+        </EntityType>
+        <EntityType Name="TasksLavorati">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TimeSheet_FK" Type="int" Nullable="false" />
+          <Property Name="Task_FK" Type="int" Nullable="false" />
+          <Property Name="Lavorato" Type="time" Precision="7" />
+          <Property Name="Note" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="TimeSheet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Risorse_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="FigureProfessionali_FK" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Ingresso" Type="time" Precision="7" Nullable="false" />
+          <Property Name="PausaPranzo" Type="time" Precision="7" />
+          <Property Name="Rientro" Type="time" Precision="7" />
+          <Property Name="Uscita" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Attivita" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Lavorato" Type="float" StoreGeneratedPattern="Computed" />
+          <Property Name="GG" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="HH" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="MM" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="LavoratoInMinuti" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="Validazione" Type="datetime" />
+          <Property Name="Validato" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="OreRendicontate" Type="decimal" Precision="18" Scale="7" Nullable="false" />
+          <Property Name="OreLavorate" Type="numeric" Precision="17" Scale="6" StoreGeneratedPattern="Computed" />
+          <Property Name="ValidazioneArma" Type="datetime" />
+          <Property Name="ValidatoArma" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="InGaranzia" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="ConsolidamentoSemestre_FK_Fattura_Contratti">
+          <End Role="Contratti" Type="Self.Contratti" Multiplicity="1" />
+          <End Role="ConsolidamentoSemestre" Type="Self.ConsolidamentoSemestre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConsolidamentoSemestre">
+              <PropertyRef Name="Contratto_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfigFigureProfessionali_Contratti">
+          <End Role="Contratti" Type="Self.Contratti" Multiplicity="1" />
+          <End Role="FigureProfessionali" Type="Self.FigureProfessionali" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FigureProfessionali">
+              <PropertyRef Name="Contratti_Fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consolidamento_Contratti">
+          <End Role="Contratti" Type="Self.Contratti" Multiplicity="1" />
+          <End Role="Consolidamento" Type="Self.Consolidamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Consolidamento">
+              <PropertyRef Name="Contratto_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consolidamento_FigureProfessionali">
+          <End Role="FigureProfessionali" Type="Self.FigureProfessionali" Multiplicity="1" />
+          <End Role="Consolidamento" Type="Self.Consolidamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Consolidamento">
+              <PropertyRef Name="FigureProfessionali_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consolidamento_Risorse">
+          <End Role="Risorse" Type="Self.Risorse" Multiplicity="1" />
+          <End Role="Consolidamento" Type="Self.Consolidamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorse">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Consolidamento">
+              <PropertyRef Name="Risorse_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PreventivoTask_FigureProfessionali">
+          <End Role="FigureProfessionali" Type="Self.FigureProfessionali" Multiplicity="1" />
+          <End Role="PreventivoTask" Type="Self.PreventivoTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="PreventivoTask">
+              <PropertyRef Name="FigureProfessionali_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PreventivoTask_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="PreventivoTask" Type="Self.PreventivoTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PreventivoTask">
+              <PropertyRef Name="Task_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Risorse_FigureProfessionali_FigureProfessionali">
+          <End Role="FigureProfessionali" Type="Self.FigureProfessionali" Multiplicity="1" />
+          <End Role="R_Risorse_FigureProfessionali" Type="Self.R_Risorse_FigureProfessionali" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="R_Risorse_FigureProfessionali">
+              <PropertyRef Name="CodiceFiguraProfessionale_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Risorse_FigureProfessionali_Risorse">
+          <End Role="Risorse" Type="Self.Risorse" Multiplicity="1" />
+          <End Role="R_Risorse_FigureProfessionali" Type="Self.R_Risorse_FigureProfessionali" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorse">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="R_Risorse_FigureProfessionali">
+              <PropertyRef Name="CodiceRisorsa_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Risorse_Aziende">
+          <End Role="Aziende" Type="Self.Aziende" Multiplicity="1" />
+          <End Role="Risorse" Type="Self.Risorse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aziende">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Risorse">
+              <PropertyRef Name="Aziende_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Risorse_FigureProfessionali">
+          <End Role="FigureProfessionali" Type="Self.FigureProfessionali" Multiplicity="1" />
+          <End Role="Risorse" Type="Self.Risorse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Risorse">
+              <PropertyRef Name="FiguraProfessionaleDefault_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Progetti">
+          <End Role="Progetti" Type="Self.Progetti" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Progetti">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Progetto_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks_Padre_Figlio">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
+          <End Role="Tasks1" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="FiglioDi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLavorati_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="TasksLavorati" Type="Self.TasksLavorati" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TasksLavorati">
+              <PropertyRef Name="Task_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLavorati_TasksLavorati">
+          <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="1" />
+          <End Role="TasksLavorati" Type="Self.TasksLavorati" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeSheet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TasksLavorati">
+              <PropertyRef Name="TimeSheet_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeSheet_FigureProfessionali">
+          <End Role="FigureProfessionali" Type="Self.FigureProfessionali" Multiplicity="1" />
+          <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="TimeSheet">
+              <PropertyRef Name="FigureProfessionali_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeSheet_Risorse">
+          <End Role="Risorse" Type="Self.Risorse" Multiplicity="1" />
+          <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorse">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="TimeSheet">
+              <PropertyRef Name="Risorse_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="uspGetRiepilogoMese" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idContratto" Type="int" Mode="In" />
+          <Parameter Name="annoContratto" Type="int" Mode="In" />
+          <Parameter Name="t1" Type="date" Mode="In" />
+          <Parameter Name="t2" Type="date" Mode="In" />
+          <Parameter Name="round" Type="int" Mode="In" />
+        </Function>
+        <Function Name="uspGetRiepilogoSemestre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idContratto" Type="int" Mode="In" />
+          <Parameter Name="anno" Type="int" Mode="In" />
+          <Parameter Name="semestre" Type="int" Mode="In" />
+        </Function>
+        <Function Name="uspGetSituazioneSingoloTask" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idTask" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="TimesheetModelStoreContainer">
+          <EntitySet Name="Aziende" EntityType="Self.Aziende" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consolidamento" EntityType="Self.Consolidamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsolidamentoSemestre" EntityType="Self.ConsolidamentoSemestre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contratti" EntityType="Self.Contratti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FigureProfessionali" EntityType="Self.FigureProfessionali" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PreventivoTask" EntityType="Self.PreventivoTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Progetti" EntityType="Self.Progetti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Risorse" EntityType="Self.Risorse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TasksLavorati" EntityType="Self.TasksLavorati" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeSheet" EntityType="Self.TimeSheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="R_Risorse_FigureProfessionali" EntityType="Self.R_Risorse_FigureProfessionali" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[R_Risorse_FigureProfessionali].[CodiceRisorsa_FK] AS [CodiceRisorsa_FK], 
+[R_Risorse_FigureProfessionali].[CodiceFiguraProfessionale_FK] AS [CodiceFiguraProfessionale_FK], 
+[R_Risorse_FigureProfessionali].[RuoloDefault] AS [RuoloDefault]
+FROM [dbo].[R_Risorse_FigureProfessionali] AS [R_Risorse_FigureProfessionali]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="ConsolidamentoSemestre_FK_Fattura_Contratti" Association="Self.ConsolidamentoSemestre_FK_Fattura_Contratti">
+            <End Role="Contratti" EntitySet="Contratti" />
+            <End Role="ConsolidamentoSemestre" EntitySet="ConsolidamentoSemestre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfigFigureProfessionali_Contratti" Association="Self.FK_ConfigFigureProfessionali_Contratti">
+            <End Role="Contratti" EntitySet="Contratti" />
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consolidamento_Contratti" Association="Self.FK_Consolidamento_Contratti">
+            <End Role="Contratti" EntitySet="Contratti" />
+            <End Role="Consolidamento" EntitySet="Consolidamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consolidamento_FigureProfessionali" Association="Self.FK_Consolidamento_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="Consolidamento" EntitySet="Consolidamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consolidamento_Risorse" Association="Self.FK_Consolidamento_Risorse">
+            <End Role="Risorse" EntitySet="Risorse" />
+            <End Role="Consolidamento" EntitySet="Consolidamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PreventivoTask_FigureProfessionali" Association="Self.FK_PreventivoTask_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="PreventivoTask" EntitySet="PreventivoTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PreventivoTask_Tasks" Association="Self.FK_PreventivoTask_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="PreventivoTask" EntitySet="PreventivoTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Risorse_FigureProfessionali_FigureProfessionali" Association="Self.FK_R_Risorse_FigureProfessionali_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="R_Risorse_FigureProfessionali" EntitySet="R_Risorse_FigureProfessionali" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Risorse_FigureProfessionali_Risorse" Association="Self.FK_R_Risorse_FigureProfessionali_Risorse">
+            <End Role="Risorse" EntitySet="Risorse" />
+            <End Role="R_Risorse_FigureProfessionali" EntitySet="R_Risorse_FigureProfessionali" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Risorse_Aziende" Association="Self.FK_Risorse_Aziende">
+            <End Role="Aziende" EntitySet="Aziende" />
+            <End Role="Risorse" EntitySet="Risorse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Risorse_FigureProfessionali" Association="Self.FK_Risorse_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="Risorse" EntitySet="Risorse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Progetti" Association="Self.FK_Tasks_Progetti">
+            <End Role="Progetti" EntitySet="Progetti" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks_Padre_Figlio" Association="Self.FK_Tasks_Tasks_Padre_Figlio">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLavorati_Tasks" Association="Self.FK_TasksLavorati_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TasksLavorati" EntitySet="TasksLavorati" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLavorati_TasksLavorati" Association="Self.FK_TasksLavorati_TasksLavorati">
+            <End Role="TimeSheet" EntitySet="TimeSheet" />
+            <End Role="TasksLavorati" EntitySet="TasksLavorati" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSheet_FigureProfessionali" Association="Self.FK_TimeSheet_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="TimeSheet" EntitySet="TimeSheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSheet_Risorse" Association="Self.FK_TimeSheet_Risorse">
+            <End Role="Risorse" EntitySet="Risorse" />
+            <End Role="TimeSheet" EntitySet="TimeSheet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TimesheetModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="TimesheetEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Aziende" EntityType="TimesheetModel.Aziende" />
+          <EntitySet Name="Contratti" EntityType="TimesheetModel.Contratti" />
+          <EntitySet Name="Progetti" EntityType="TimesheetModel.Progetti" />
+          <EntitySet Name="Risorse" EntityType="TimesheetModel.Risorse" />
+          <AssociationSet Name="FK_Risorse_Aziende" Association="TimesheetModel.FK_Risorse_Aziende">
+            <End Role="Aziende" EntitySet="Aziende" />
+            <End Role="Risorse" EntitySet="Risorse" />
+          </AssociationSet>
+          <FunctionImport Name="uspGetRiepilogoMese" ReturnType="Collection(TimesheetModel.uspGetRiepilogoMese_result)">
+            <Parameter Name="idContratto" Mode="In" Type="Int32" />
+            <Parameter Name="annoContratto" Mode="In" Type="Int32" />
+            <Parameter Name="t1" Mode="In" Type="DateTime" />
+            <Parameter Name="t2" Mode="In" Type="DateTime" />
+            <Parameter Name="round" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Consolidamento" EntityType="TimesheetModel.Consolidamento" />
+          <AssociationSet Name="FK_Consolidamento_Contratti" Association="TimesheetModel.FK_Consolidamento_Contratti">
+            <End Role="Contratti" EntitySet="Contratti" />
+            <End Role="Consolidamento" EntitySet="Consolidamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consolidamento_Risorse" Association="TimesheetModel.FK_Consolidamento_Risorse">
+            <End Role="Risorse" EntitySet="Risorse" />
+            <End Role="Consolidamento" EntitySet="Consolidamento" />
+          </AssociationSet>
+          <EntitySet Name="R_Risorse_FigureProfessionali" EntityType="TimesheetModel.R_Risorse_FigureProfessionali" />
+          <AssociationSet Name="FK_R_Risorse_FigureProfessionali_Risorse" Association="TimesheetModel.FK_R_Risorse_FigureProfessionali_Risorse">
+            <End Role="Risorse" EntitySet="Risorse" />
+            <End Role="R_Risorse_FigureProfessionali" EntitySet="R_Risorse_FigureProfessionali" />
+          </AssociationSet>
+          <EntitySet Name="FigureProfessionali" EntityType="TimesheetModel.FigureProfessionali" />
+          <AssociationSet Name="FK_Consolidamento_FigureProfessionali" Association="TimesheetModel.FK_Consolidamento_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="Consolidamento" EntitySet="Consolidamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfigFigureProfessionali_Contratti" Association="TimesheetModel.FK_ConfigFigureProfessionali_Contratti">
+            <End Role="Contratti" EntitySet="Contratti" />
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Risorse_FigureProfessionali_FigureProfessionali" Association="TimesheetModel.FK_R_Risorse_FigureProfessionali_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="R_Risorse_FigureProfessionali" EntitySet="R_Risorse_FigureProfessionali" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Risorse_FigureProfessionali" Association="TimesheetModel.FK_Risorse_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="Risorse" EntitySet="Risorse" />
+          </AssociationSet>
+          <EntitySet Name="PreventivoTask" EntityType="TimesheetModel.PreventivoTask" />
+          <AssociationSet Name="FK_PreventivoTask_FigureProfessionali" Association="TimesheetModel.FK_PreventivoTask_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="PreventivoTask" EntitySet="PreventivoTask" />
+          </AssociationSet>
+          <EntitySet Name="TasksLavorati" EntityType="TimesheetModel.TasksLavorati" />
+          <EntitySet Name="Tasks" EntityType="TimesheetModel.Tasks" />
+          <EntitySet Name="TimeSheet" EntityType="TimesheetModel.TimeSheet" />
+          <AssociationSet Name="FK_TimeSheet_FigureProfessionali" Association="TimesheetModel.FK_TimeSheet_FigureProfessionali">
+            <End Role="FigureProfessionali" EntitySet="FigureProfessionali" />
+            <End Role="TimeSheet" EntitySet="TimeSheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PreventivoTask_Tasks" Association="TimesheetModel.FK_PreventivoTask_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="PreventivoTask" EntitySet="PreventivoTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Progetti" Association="TimesheetModel.FK_Tasks_Progetti">
+            <End Role="Progetti" EntitySet="Progetti" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSheet_Risorse" Association="TimesheetModel.FK_TimeSheet_Risorse">
+            <End Role="Risorse" EntitySet="Risorse" />
+            <End Role="TimeSheet" EntitySet="TimeSheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks_Padre_Figlio" Association="TimesheetModel.FK_Tasks_Tasks_Padre_Figlio">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLavorati_Tasks" Association="TimesheetModel.FK_TasksLavorati_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TasksLavorati" EntitySet="TasksLavorati" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksLavorati_TasksLavorati" Association="TimesheetModel.FK_TasksLavorati_TasksLavorati">
+            <End Role="TimeSheet" EntitySet="TimeSheet" />
+            <End Role="TasksLavorati" EntitySet="TasksLavorati" />
+          </AssociationSet>
+          <EntitySet Name="ConsolidamentoSemestre" EntityType="TimesheetModel.ConsolidamentoSemestre" />
+          <AssociationSet Name="ConsolidamentoSemestre_FK_Fattura_Contratti" Association="TimesheetModel.ConsolidamentoSemestre_FK_Fattura_Contratti">
+            <End Role="Contratti" EntitySet="Contratti" />
+            <End Role="ConsolidamentoSemestre" EntitySet="ConsolidamentoSemestre" />
+          </AssociationSet>
+          <FunctionImport Name="uspGetRiepilogoSemestre" ReturnType="Collection(TimesheetModel.uspGetRiepilogoSemestre_Result)">
+            <Parameter Name="idContratto" Mode="In" Type="Int32" />
+            <Parameter Name="anno" Mode="In" Type="Int32" />
+            <Parameter Name="semestre" Mode="In" Type="Int32" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="Aziende">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="Descrizione" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Indirizzo" Type="String" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="Mail" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Risorse" Relationship="TimesheetModel.FK_Risorse_Aziende" FromRole="Aziende" ToRole="Risorse" />
+        </EntityType>
+        <EntityType Name="Contratti">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Numero" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Anno" Type="Int32" Nullable="false" />
+          <Property Name="Descizione" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
+          <Property Name="Budget" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Boolean" Name="Default" />
+          <NavigationProperty Name="Consolidamento" Relationship="TimesheetModel.FK_Consolidamento_Contratti" FromRole="Contratti" ToRole="Consolidamento" />
+          <Property Name="StipulatoDa" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FigureProfessionali" Relationship="TimesheetModel.FK_ConfigFigureProfessionali_Contratti" FromRole="Contratti" ToRole="FigureProfessionali" />
+          <NavigationProperty Name="ConsolidamentoSemestre" Relationship="TimesheetModel.ConsolidamentoSemestre_FK_Fattura_Contratti" FromRole="Contratti" ToRole="ConsolidamentoSemestre" />
+        </EntityType>
+        <EntityType Name="Progetti">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="Descrizione" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
+          <Property Name="Valido" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="TimesheetModel.FK_Tasks_Progetti" FromRole="Progetti" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Risorse">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="false" />
+          <Property Name="Nominativo" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="CostoGiornaliero" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Aziende_FK" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Aziende" Relationship="TimesheetModel.FK_Risorse_Aziende" FromRole="Risorse" ToRole="Aziende" />
+          <Property Type="String" Name="FiguraProfessionaleDefault_FK" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Type="Time" Name="Ingresso" Precision="7" />
+          <Property Type="Time" Name="Uscita" Precision="7" />
+          <NavigationProperty Name="Consolidamento" Relationship="TimesheetModel.FK_Consolidamento_Risorse" FromRole="Risorse" ToRole="Consolidamento" />
+          <Property Name="IsCustomer" Type="Boolean" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="R_Risorse_FigureProfessionali" Relationship="TimesheetModel.FK_R_Risorse_FigureProfessionali_Risorse" FromRole="Risorse" ToRole="R_Risorse_FigureProfessionali" />
+          <NavigationProperty Name="FigureProfessionali" Relationship="TimesheetModel.FK_Risorse_FigureProfessionali" FromRole="Risorse" ToRole="FigureProfessionali" />
+          <NavigationProperty Name="TimeSheet" Relationship="TimesheetModel.FK_TimeSheet_Risorse" FromRole="Risorse" ToRole="TimeSheet" />
+          </EntityType>
+        <Association Name="FK_Risorse_Aziende">
+          <End Role="Aziende" Type="TimesheetModel.Aziende" Multiplicity="1" />
+          <End Role="Risorse" Type="TimesheetModel.Risorse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aziende">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Risorse">
+              <PropertyRef Name="Aziende_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="uspGetRiepilogoMese_result">
+          <Property Type="Int32" Name="Anno" Nullable="false" />
+          <Property Type="Int32" Name="Mese" Nullable="false" />
+          <Property Type="String" Name="Risorsa" Nullable="false" />
+          <Property Type="String" Name="Nominativo" Nullable="false" />
+          <Property Type="String" Name="FP" Nullable="false" />
+          <Property Type="Double" Name="ErogatoTot" Nullable="false" />
+          <Property Type="Double" Name="ErogatoInFattura" Nullable="false" />
+          <Property Type="Double" Name="ErogatoInGaranzia" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Consolidamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Contratto_FK" Type="Int32" Nullable="false" />
+          <Property Name="Anno" Type="Int32" Nullable="false" />
+          <Property Name="Mese" Type="Int32" Nullable="false" />
+          <Property Name="Risorse_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Nominativo" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FigureProfessionali_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="ErogatoTot" Type="Double" Nullable="false" />
+          <Property Name="ErogatoInFattura" Type="Double" Nullable="false" />
+          <Property Name="ErogatoInGaranzia" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Contratti" Relationship="TimesheetModel.FK_Consolidamento_Contratti" FromRole="Consolidamento" ToRole="Contratti" />
+          <NavigationProperty Name="Risorse" Relationship="TimesheetModel.FK_Consolidamento_Risorse" FromRole="Consolidamento" ToRole="Risorse" />
+          <NavigationProperty Name="FigureProfessionali" Relationship="TimesheetModel.FK_Consolidamento_FigureProfessionali" FromRole="Consolidamento" ToRole="FigureProfessionali" />
+        </EntityType>
+        <Association Name="FK_Consolidamento_Contratti">
+          <End Type="TimesheetModel.Contratti" Role="Contratti" Multiplicity="1" />
+          <End Type="TimesheetModel.Consolidamento" Role="Consolidamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Consolidamento">
+              <PropertyRef Name="Contratto_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consolidamento_Risorse">
+          <End Type="TimesheetModel.Risorse" Role="Risorse" Multiplicity="1" />
+          <End Type="TimesheetModel.Consolidamento" Role="Consolidamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorse">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Consolidamento">
+              <PropertyRef Name="Risorse_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="R_Risorse_FigureProfessionali">
+          <Key>
+            <PropertyRef Name="CodiceRisorsa_FK" />
+            <PropertyRef Name="CodiceFiguraProfessionale_FK" />
+            <PropertyRef Name="RuoloDefault" />
+          </Key>
+          <Property Name="CodiceRisorsa_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="CodiceFiguraProfessionale_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="RuoloDefault" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Risorse" Relationship="TimesheetModel.FK_R_Risorse_FigureProfessionali_Risorse" FromRole="R_Risorse_FigureProfessionali" ToRole="Risorse" />
+          <NavigationProperty Name="FigureProfessionali" Relationship="TimesheetModel.FK_R_Risorse_FigureProfessionali_FigureProfessionali" FromRole="R_Risorse_FigureProfessionali" ToRole="FigureProfessionali" />
+        </EntityType>
+        <Association Name="FK_R_Risorse_FigureProfessionali_Risorse">
+          <End Type="TimesheetModel.Risorse" Role="Risorse" Multiplicity="1" />
+          <End Type="TimesheetModel.R_Risorse_FigureProfessionali" Role="R_Risorse_FigureProfessionali" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorse">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="R_Risorse_FigureProfessionali">
+              <PropertyRef Name="CodiceRisorsa_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FigureProfessionali">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Descrizione" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TariffaGiornaliera" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="NumeroGiornatePreviste" Type="Int32" />
+          <Property Name="Contratti_Fk" Type="Int32" Nullable="false" />
+          <Property Name="Visibile" Type="Boolean" />
+          <Property Name="DescrizioneBreve" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Consolidamento" Relationship="TimesheetModel.FK_Consolidamento_FigureProfessionali" FromRole="FigureProfessionali" ToRole="Consolidamento" />
+          <NavigationProperty Name="Contratti" Relationship="TimesheetModel.FK_ConfigFigureProfessionali_Contratti" FromRole="FigureProfessionali" ToRole="Contratti" />
+          <NavigationProperty Name="R_Risorse_FigureProfessionali" Relationship="TimesheetModel.FK_R_Risorse_FigureProfessionali_FigureProfessionali" FromRole="FigureProfessionali" ToRole="R_Risorse_FigureProfessionali" />
+          <NavigationProperty Name="Risorse" Relationship="TimesheetModel.FK_Risorse_FigureProfessionali" FromRole="FigureProfessionali" ToRole="Risorse" />
+          <NavigationProperty Name="PreventivoTask" Relationship="TimesheetModel.FK_PreventivoTask_FigureProfessionali" FromRole="FigureProfessionali" ToRole="PreventivoTask" />
+          <NavigationProperty Name="TimeSheet" Relationship="TimesheetModel.FK_TimeSheet_FigureProfessionali" FromRole="FigureProfessionali" ToRole="TimeSheet" />
+        </EntityType>
+        <Association Name="FK_Consolidamento_FigureProfessionali">
+          <End Type="TimesheetModel.FigureProfessionali" Role="FigureProfessionali" Multiplicity="1" />
+          <End Type="TimesheetModel.Consolidamento" Role="Consolidamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Consolidamento">
+              <PropertyRef Name="FigureProfessionali_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfigFigureProfessionali_Contratti">
+          <End Type="TimesheetModel.Contratti" Role="Contratti" Multiplicity="1" />
+          <End Type="TimesheetModel.FigureProfessionali" Role="FigureProfessionali" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FigureProfessionali">
+              <PropertyRef Name="Contratti_Fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Risorse_FigureProfessionali_FigureProfessionali">
+          <End Type="TimesheetModel.FigureProfessionali" Role="FigureProfessionali" Multiplicity="1" />
+          <End Type="TimesheetModel.R_Risorse_FigureProfessionali" Role="R_Risorse_FigureProfessionali" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="R_Risorse_FigureProfessionali">
+              <PropertyRef Name="CodiceFiguraProfessionale_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Risorse_FigureProfessionali">
+          <End Type="TimesheetModel.FigureProfessionali" Role="FigureProfessionali" Multiplicity="1" />
+          <End Type="TimesheetModel.Risorse" Role="Risorse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Risorse">
+              <PropertyRef Name="FiguraProfessionaleDefault_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PreventivoTask">
+          <Key>
+            <PropertyRef Name="Task_FK" />
+            <PropertyRef Name="FigureProfessionali_FK" />
+          </Key>
+          <Property Name="Task_FK" Type="Int32" Nullable="false" />
+          <Property Name="FigureProfessionali_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="PreventivoGGUU" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <NavigationProperty Name="FigureProfessionali" Relationship="TimesheetModel.FK_PreventivoTask_FigureProfessionali" FromRole="PreventivoTask" ToRole="FigureProfessionali" />
+          <NavigationProperty Name="Tasks" Relationship="TimesheetModel.FK_PreventivoTask_Tasks" FromRole="PreventivoTask" ToRole="Tasks" />
+        </EntityType>
+        <Association Name="FK_PreventivoTask_FigureProfessionali">
+          <End Type="TimesheetModel.FigureProfessionali" Role="FigureProfessionali" Multiplicity="1" />
+          <End Type="TimesheetModel.PreventivoTask" Role="PreventivoTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="PreventivoTask">
+              <PropertyRef Name="FigureProfessionali_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TasksLavorati">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimeSheet_FK" Type="Int32" Nullable="false" />
+          <Property Name="Task_FK" Type="Int32" Nullable="false" />
+          <Property Name="Lavorato" Type="Time" Precision="7" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tasks" Relationship="TimesheetModel.FK_TasksLavorati_Tasks" FromRole="TasksLavorati" ToRole="Tasks" />
+          <NavigationProperty Name="TimeSheet" Relationship="TimesheetModel.FK_TasksLavorati_TasksLavorati" FromRole="TasksLavorati" ToRole="TimeSheet" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroTask" Type="Int32" Nullable="false" />
+          <Property Name="Progetto_FK" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Titolo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DataRichiesta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PreventivoGGUU" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="InGaranzia" Type="Boolean" Nullable="false" />
+          <Property Name="PreventivoInviato" Type="Boolean" Nullable="false" />
+          <Property Name="Terminato" Type="Boolean" Nullable="false" />
+          <Property Name="Descrizione" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FiglioDi" Type="Int32" />
+          <NavigationProperty Name="PreventivoTask" Relationship="TimesheetModel.FK_PreventivoTask_Tasks" FromRole="Tasks" ToRole="PreventivoTask" />
+          <NavigationProperty Name="Progetti" Relationship="TimesheetModel.FK_Tasks_Progetti" FromRole="Tasks" ToRole="Progetti" />
+          <NavigationProperty Name="Tasks1" Relationship="TimesheetModel.FK_Tasks_Tasks_Padre_Figlio" FromRole="Tasks" ToRole="Tasks1" />
+          <NavigationProperty Name="Tasks2" Relationship="TimesheetModel.FK_Tasks_Tasks_Padre_Figlio" FromRole="Tasks1" ToRole="Tasks" />
+          <NavigationProperty Name="TasksLavorati" Relationship="TimesheetModel.FK_TasksLavorati_Tasks" FromRole="Tasks" ToRole="TasksLavorati" />
+        </EntityType>
+        <EntityType Name="TimeSheet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Risorse_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="FigureProfessionali_FK" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Ingresso" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="PausaPranzo" Type="Time" Precision="7" />
+          <Property Name="Rientro" Type="Time" Precision="7" />
+          <Property Name="Uscita" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Attivita" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Lavorato" Type="Double" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="GG" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="HH" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MM" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="LavoratoInMinuti" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Validazione" Type="DateTime" Precision="3" />
+          <Property Name="Validato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="OreRendicontate" Type="Decimal" Nullable="false" Precision="18" Scale="7" />
+          <Property Name="OreLavorate" Type="Decimal" Precision="17" Scale="6" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ValidazioneArma" Type="DateTime" Precision="3" />
+          <Property Name="ValidatoArma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="FigureProfessionali" Relationship="TimesheetModel.FK_TimeSheet_FigureProfessionali" FromRole="TimeSheet" ToRole="FigureProfessionali" />
+          <NavigationProperty Name="Risorse" Relationship="TimesheetModel.FK_TimeSheet_Risorse" FromRole="TimeSheet" ToRole="Risorse" />
+          <NavigationProperty Name="TasksLavorati" Relationship="TimesheetModel.FK_TasksLavorati_TasksLavorati" FromRole="TimeSheet" ToRole="TasksLavorati" />
+          <Property Name="InGaranzia" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TimeSheet_FigureProfessionali">
+          <End Type="TimesheetModel.FigureProfessionali" Role="FigureProfessionali" Multiplicity="1" />
+          <End Type="TimesheetModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FigureProfessionali">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="TimeSheet">
+              <PropertyRef Name="FigureProfessionali_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PreventivoTask_Tasks">
+          <End Type="TimesheetModel.Tasks" Role="Tasks" Multiplicity="1" />
+          <End Type="TimesheetModel.PreventivoTask" Role="PreventivoTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PreventivoTask">
+              <PropertyRef Name="Task_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Progetti">
+          <End Type="TimesheetModel.Progetti" Role="Progetti" Multiplicity="1" />
+          <End Type="TimesheetModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Progetti">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Progetto_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeSheet_Risorse">
+          <End Type="TimesheetModel.Risorse" Role="Risorse" Multiplicity="1" />
+          <End Type="TimesheetModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorse">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="TimeSheet">
+              <PropertyRef Name="Risorse_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks_Padre_Figlio">
+          <End Type="TimesheetModel.Tasks" Role="Tasks" Multiplicity="0..1" />
+          <End Type="TimesheetModel.Tasks" Role="Tasks1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="FiglioDi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLavorati_Tasks">
+          <End Type="TimesheetModel.Tasks" Role="Tasks" Multiplicity="1" />
+          <End Type="TimesheetModel.TasksLavorati" Role="TasksLavorati" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TasksLavorati">
+              <PropertyRef Name="Task_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksLavorati_TasksLavorati">
+          <End Type="TimesheetModel.TimeSheet" Role="TimeSheet" Multiplicity="1" />
+          <End Type="TimesheetModel.TasksLavorati" Role="TasksLavorati" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeSheet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TasksLavorati">
+              <PropertyRef Name="TimeSheet_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConsolidamentoSemestre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contratto_FK" Type="Int32" Nullable="false" />
+          <Property Name="Anno" Type="Int32" Nullable="false" />
+          <Property Name="Semestre" Type="Int32" Nullable="false" />
+          <Property Name="Aziende_FK" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FiguraProfessionale" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Tariffa" Type="Double" Nullable="false" />
+          <Property Name="ErogatoTot" Type="Double" Nullable="false" />
+          <Property Name="ErogatoInFattura" Type="Double" Nullable="false" />
+          <Property Name="ErogatoInGaranzia" Type="Double" Nullable="false" />
+          <Property Name="Importo" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Contratti" Relationship="TimesheetModel.ConsolidamentoSemestre_FK_Fattura_Contratti" FromRole="ConsolidamentoSemestre" ToRole="Contratti" />
+        </EntityType>
+        <Association Name="ConsolidamentoSemestre_FK_Fattura_Contratti">
+          <End Type="TimesheetModel.Contratti" Role="Contratti" Multiplicity="1" />
+          <End Type="TimesheetModel.ConsolidamentoSemestre" Role="ConsolidamentoSemestre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratti">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConsolidamentoSemestre">
+              <PropertyRef Name="Contratto_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="uspGetRiepilogoSemestre_Result">
+          <Property Type="Int32" Name="Contratto_FK" Nullable="true" />
+          <Property Type="Int32" Name="Anno" Nullable="true" />
+          <Property Type="Int32" Name="Semestre" Nullable="true" />
+          <Property Type="String" Name="Aziende_FK" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FiguraProfessionale" Nullable="true" MaxLength="256" />
+          <Property Type="Decimal" Name="Tariffa" Nullable="true" Precision="19" />
+          <Property Type="Double" Name="ErogatoTot" Nullable="true" />
+          <Property Type="Double" Name="ErogatoInFattura" Nullable="true" />
+          <Property Type="Double" Name="ErogatoInGaranzia" Nullable="true" />
+          <Property Type="Double" Name="Importo" Nullable="true" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TimesheetModelStoreContainer" CdmEntityContainer="TimesheetEntities">
+          <EntitySetMapping Name="Aziende">
+            <EntityTypeMapping TypeName="TimesheetModel.Aziende">
+              <MappingFragment StoreEntitySet="Aziende">
+                <ScalarProperty Name="Codice" ColumnName="Codice" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+                <ScalarProperty Name="Indirizzo" ColumnName="Indirizzo" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contratti">
+            <EntityTypeMapping TypeName="TimesheetModel.Contratti">
+              <MappingFragment StoreEntitySet="Contratti">
+                <ScalarProperty Name="StipulatoDa" ColumnName="StipulatoDa" />
+                <ScalarProperty Name="Default" ColumnName="Default" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Anno" ColumnName="Anno" />
+                <ScalarProperty Name="Descizione" ColumnName="Descizione" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Progetti">
+            <EntityTypeMapping TypeName="TimesheetModel.Progetti">
+              <MappingFragment StoreEntitySet="Progetti">
+                <ScalarProperty Name="Valido" ColumnName="Valido" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Risorse">
+            <EntityTypeMapping TypeName="TimesheetModel.Risorse">
+              <MappingFragment StoreEntitySet="Risorse">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="IsCustomer" ColumnName="IsCustomer" />
+                <ScalarProperty Name="Uscita" ColumnName="Uscita" />
+                <ScalarProperty Name="Ingresso" ColumnName="Ingresso" />
+                <ScalarProperty Name="FiguraProfessionaleDefault_FK" ColumnName="FiguraProfessionaleDefault_FK" />
+                <ScalarProperty Name="Codice" ColumnName="Codice" />
+                <ScalarProperty Name="Nominativo" ColumnName="Nominativo" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="CostoGiornaliero" ColumnName="CostoGiornaliero" />
+                <ScalarProperty Name="Aziende_FK" ColumnName="Aziende_FK" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspGetRiepilogoMese" FunctionName="TimesheetModel.Store.uspGetRiepilogoMese">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TimesheetModel.uspGetRiepilogoMese_result">
+                <ScalarProperty Name="Anno" ColumnName="Anno" />
+                <ScalarProperty Name="Mese" ColumnName="Mese" />
+                <ScalarProperty Name="Risorsa" ColumnName="Risorsa" />
+                <ScalarProperty Name="Nominativo" ColumnName="Nominativo" />
+                <ScalarProperty Name="FP" ColumnName="FP" />
+                <ScalarProperty Name="ErogatoTot" ColumnName="ErogatoTot" />
+                <ScalarProperty Name="ErogatoInFattura" ColumnName="ErogatoInFattura" />
+                <ScalarProperty Name="ErogatoInGaranzia" ColumnName="ErogatoInGaranzia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Consolidamento">
+            <EntityTypeMapping TypeName="TimesheetModel.Consolidamento">
+              <MappingFragment StoreEntitySet="Consolidamento">
+                <ScalarProperty Name="ErogatoInGaranzia" ColumnName="ErogatoInGaranzia" />
+                <ScalarProperty Name="ErogatoInFattura" ColumnName="ErogatoInFattura" />
+                <ScalarProperty Name="ErogatoTot" ColumnName="ErogatoTot" />
+                <ScalarProperty Name="FigureProfessionali_FK" ColumnName="FigureProfessionali_FK" />
+                <ScalarProperty Name="Nominativo" ColumnName="Nominativo" />
+                <ScalarProperty Name="Risorse_FK" ColumnName="Risorse_FK" />
+                <ScalarProperty Name="Mese" ColumnName="Mese" />
+                <ScalarProperty Name="Anno" ColumnName="Anno" />
+                <ScalarProperty Name="Contratto_FK" ColumnName="Contratto_FK" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="R_Risorse_FigureProfessionali">
+            <EntityTypeMapping TypeName="TimesheetModel.R_Risorse_FigureProfessionali">
+              <MappingFragment StoreEntitySet="R_Risorse_FigureProfessionali">
+                <ScalarProperty Name="RuoloDefault" ColumnName="RuoloDefault" />
+                <ScalarProperty Name="CodiceFiguraProfessionale_FK" ColumnName="CodiceFiguraProfessionale_FK" />
+                <ScalarProperty Name="CodiceRisorsa_FK" ColumnName="CodiceRisorsa_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FigureProfessionali">
+            <EntityTypeMapping TypeName="TimesheetModel.FigureProfessionali">
+              <MappingFragment StoreEntitySet="FigureProfessionali">
+                <ScalarProperty Name="DescrizioneBreve" ColumnName="DescrizioneBreve" />
+                <ScalarProperty Name="Visibile" ColumnName="Visibile" />
+                <ScalarProperty Name="Contratti_Fk" ColumnName="Contratti_Fk" />
+                <ScalarProperty Name="NumeroGiornatePreviste" ColumnName="NumeroGiornatePreviste" />
+                <ScalarProperty Name="TariffaGiornaliera" ColumnName="TariffaGiornaliera" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+                <ScalarProperty Name="Codice" ColumnName="Codice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PreventivoTask">
+            <EntityTypeMapping TypeName="TimesheetModel.PreventivoTask">
+              <MappingFragment StoreEntitySet="PreventivoTask">
+                <ScalarProperty Name="PreventivoGGUU" ColumnName="PreventivoGGUU" />
+                <ScalarProperty Name="FigureProfessionali_FK" ColumnName="FigureProfessionali_FK" />
+                <ScalarProperty Name="Task_FK" ColumnName="Task_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TasksLavorati">
+            <EntityTypeMapping TypeName="TimesheetModel.TasksLavorati">
+              <MappingFragment StoreEntitySet="TasksLavorati">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Lavorato" ColumnName="Lavorato" />
+                <ScalarProperty Name="Task_FK" ColumnName="Task_FK" />
+                <ScalarProperty Name="TimeSheet_FK" ColumnName="TimeSheet_FK" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="TimesheetModel.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="FiglioDi" ColumnName="FiglioDi" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+                <ScalarProperty Name="Terminato" ColumnName="Terminato" />
+                <ScalarProperty Name="PreventivoInviato" ColumnName="PreventivoInviato" />
+                <ScalarProperty Name="InGaranzia" ColumnName="InGaranzia" />
+                <ScalarProperty Name="PreventivoGGUU" ColumnName="PreventivoGGUU" />
+                <ScalarProperty Name="DataRichiesta" ColumnName="DataRichiesta" />
+                <ScalarProperty Name="Titolo" ColumnName="Titolo" />
+                <ScalarProperty Name="Progetto_FK" ColumnName="Progetto_FK" />
+                <ScalarProperty Name="NumeroTask" ColumnName="NumeroTask" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeSheet">
+            <EntityTypeMapping TypeName="TimesheetModel.TimeSheet">
+              <MappingFragment StoreEntitySet="TimeSheet">
+                <ScalarProperty Name="InGaranzia" ColumnName="InGaranzia" />
+                <ScalarProperty Name="ValidatoArma" ColumnName="ValidatoArma" />
+                <ScalarProperty Name="ValidazioneArma" ColumnName="ValidazioneArma" />
+                <ScalarProperty Name="OreLavorate" ColumnName="OreLavorate" />
+                <ScalarProperty Name="OreRendicontate" ColumnName="OreRendicontate" />
+                <ScalarProperty Name="Validato" ColumnName="Validato" />
+                <ScalarProperty Name="Validazione" ColumnName="Validazione" />
+                <ScalarProperty Name="LavoratoInMinuti" ColumnName="LavoratoInMinuti" />
+                <ScalarProperty Name="MM" ColumnName="MM" />
+                <ScalarProperty Name="HH" ColumnName="HH" />
+                <ScalarProperty Name="GG" ColumnName="GG" />
+                <ScalarProperty Name="Lavorato" ColumnName="Lavorato" />
+                <ScalarProperty Name="Attivita" ColumnName="Attivita" />
+                <ScalarProperty Name="Uscita" ColumnName="Uscita" />
+                <ScalarProperty Name="Rientro" ColumnName="Rientro" />
+                <ScalarProperty Name="PausaPranzo" ColumnName="PausaPranzo" />
+                <ScalarProperty Name="Ingresso" ColumnName="Ingresso" />
+                <ScalarProperty Name="FigureProfessionali_FK" ColumnName="FigureProfessionali_FK" />
+                <ScalarProperty Name="Risorse_FK" ColumnName="Risorse_FK" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsolidamentoSemestre">
+            <EntityTypeMapping TypeName="TimesheetModel.ConsolidamentoSemestre">
+              <MappingFragment StoreEntitySet="ConsolidamentoSemestre">
+                <ScalarProperty Name="Importo" ColumnName="Importo" />
+                <ScalarProperty Name="ErogatoInGaranzia" ColumnName="ErogatoInGaranzia" />
+                <ScalarProperty Name="ErogatoInFattura" ColumnName="ErogatoInFattura" />
+                <ScalarProperty Name="ErogatoTot" ColumnName="ErogatoTot" />
+                <ScalarProperty Name="Tariffa" ColumnName="Tariffa" />
+                <ScalarProperty Name="FiguraProfessionale" ColumnName="FiguraProfessionale" />
+                <ScalarProperty Name="Aziende_FK" ColumnName="Aziende_FK" />
+                <ScalarProperty Name="Semestre" ColumnName="Semestre" />
+                <ScalarProperty Name="Anno" ColumnName="Anno" />
+                <ScalarProperty Name="Contratto_FK" ColumnName="Contratto_FK" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspGetRiepilogoSemestre" FunctionName="TimesheetModel.Store.uspGetRiepilogoSemestre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TimesheetModel.uspGetRiepilogoSemestre_Result">
+                <ScalarProperty Name="Contratto_FK" ColumnName="Contratto_FK" />
+                <ScalarProperty Name="Anno" ColumnName="Anno" />
+                <ScalarProperty Name="Semestre" ColumnName="Semestre" />
+                <ScalarProperty Name="Aziende_FK" ColumnName="Aziende_FK" />
+                <ScalarProperty Name="FiguraProfessionale" ColumnName="FiguraProfessionale" />
+                <ScalarProperty Name="Tariffa" ColumnName="Tariffa" />
+                <ScalarProperty Name="ErogatoTot" ColumnName="ErogatoTot" />
+                <ScalarProperty Name="ErogatoInFattura" ColumnName="ErogatoInFattura" />
+                <ScalarProperty Name="ErogatoInGaranzia" ColumnName="ErogatoInGaranzia" />
+                <ScalarProperty Name="Importo" ColumnName="Importo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="False" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <edmx:Diagram Name="Model">
+        <edmx:EntityTypeShape EntityType="TimesheetModel.Aziende" Width="1.5" PointX="8" PointY="7.375" Height="1.9802864583333326" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.Contratti" Width="1.5" PointX="0.75" PointY="2.5" Height="2.364889322916667" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.Progetti" Width="1.5" PointX="7.25" PointY="11" Height="1.5956835937499996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.Risorse" Width="1.5" PointX="0.5" PointY="11.625" Height="2.5571907552083326" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.TimeSheet" Width="1.5" PointX="5.25" PointY="1.125" Height="5.2494108072916674" IsExpanded="true" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Risorse_Aziende" ManuallyRouted="false">
+          <edmx:ConnectorPoint PointX="2.25" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="5.604166666666667" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="5.770833333333333" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="6.385416666666667" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="6.552083333333333" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="7.697916666666667" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="7.864583333333333" PointY="8.2401432291666659" />
+          <edmx:ConnectorPoint PointX="7.875" PointY="8.2401432291666659" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="TimesheetModel.FK_TimeSheet_Risorse" ManuallyRouted="false">
+          <edmx:ConnectorPoint PointX="7.875" PointY="8.9325741145833337" />
+          <edmx:ConnectorPoint PointX="7.864583333333333" PointY="8.9325741145833337" />
+          <edmx:ConnectorPoint PointX="7.697916666666667" PointY="8.9325741145833337" />
+          <edmx:ConnectorPoint PointX="6.46875" PointY="8.9325741145833337" />
+          <edmx:ConnectorPoint PointX="6.46875" PointY="6.3744108072916656" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="TimesheetModel.Consolidamento" Width="2" PointX="1.375" PointY="6.875" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Consolidamento_Contratti" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Consolidamento_Risorse" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.R_Risorse_FigureProfessionali" Width="1.5" PointX="10.375" PointY="8" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_R_Risorse_FigureProfessionali_Risorse" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.FigureProfessionali" Width="1.5" PointX="3" PointY="2.25" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Consolidamento_FigureProfessionali" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_ConfigFigureProfessionali_Contratti" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_R_Risorse_FigureProfessionali_FigureProfessionali" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Risorse_FigureProfessionali" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_TimeSheet_FigureProfessionali" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.PreventivoTask" Width="1.5" PointX="12.75" PointY="7.625" />
+        <edmx:EntityTypeShape EntityType="TimesheetModel.Tasks" Width="1.5" PointX="4.875" PointY="9.625" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_PreventivoTask_FigureProfessionali" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_PreventivoTask_Tasks" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Tasks_Progetti" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_Tasks_Tasks_Padre_Figlio" />
+        <edmx:AssociationConnector Association="TimesheetModel.FK_TimeSheet_Tasks" />
+        </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

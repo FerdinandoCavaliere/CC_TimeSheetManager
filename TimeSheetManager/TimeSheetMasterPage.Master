@@ -1,0 +1,48 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="TimeSheetMasterPage.Master.cs" Inherits="TimeSheetManager.TimeSheetMasterPage" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <title>Time Sheet</title>
+    <link href="Styles/StiliMasterPage.css" rel="stylesheet" type="text/css" />
+    <link href="Styles/StiliPopup.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div>
+            <asp:Panel ID="PnlHeader" runat="server">
+                <div id="Header">
+                    <div id="Titolo">TimeSheet Manager</div>
+                    <div id="Utente">
+                        <asp:Label ID="LblUtente" runat="server" Text=""></asp:Label>
+                        <br />
+                        <br />
+                        <asp:Label ID="LblSezione" runat="server" Text="Home"></asp:Label>
+                    </div>
+                    <div id="TastoMenu">
+                        <img src="Immagini/Mattonelle.png" onclick="viewHideMenu()" style="width: 60px; height: 60px; cursor: pointer;" />
+                    </div>
+                </div>
+            </asp:Panel>
+            <div id="DivMenu" style="visibility:hidden">
+                <asp:Panel ID="PnlMenu" runat="server" CssClass="Menu" ClientIDMode="Static"></asp:Panel>
+            </div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+    <script type="text/javascript">
+        function viewHideMenu() {
+            var menu = document.getElementById('DivMenu');
+            if (menu.style.visibility == 'visible') {
+                menu.style.visibility = 'hidden';
+            } else {
+                menu.style.visibility = 'visible';
+            }
+        }
+    </script>
+</body>
+</html>

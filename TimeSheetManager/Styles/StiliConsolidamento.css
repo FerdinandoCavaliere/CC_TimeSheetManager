@@ -1,0 +1,130 @@
+﻿body {
+    background-color: rgba(0, 150, 136, 0.15);
+}
+
+#Contenitore {
+    position: absolute;
+    top: 80px;
+    right: 0px;
+    left: 0px;
+}
+
+#ParametriRicerca {
+    position: relative;
+    top: 5px;
+}
+
+#RbtnOperazione td {
+    padding: 10px 0;
+}
+
+.Parametri tr {
+    height: 40px;
+}
+
+.Parametri td {
+    min-width: 80px;
+}
+
+    .Parametri td:nth-child(2n) {
+        padding-right: 25px;
+    }
+
+.SceltaOperazione {
+    width: 10%;
+    text-align: left;
+    border-right-color: darkgray;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+.TastiCercaNuovoPulisci {
+    width: 10%;
+    text-align: right;
+}
+
+.BottoneConsolida {
+    border: thin solid rgb(0, 153, 51);
+    background-color: rgb(0, 153, 51);
+    text-decoration: none;
+    width: 150px;
+    height: 50px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    .BottoneConsolida:hover {
+        background-color: white;
+        color: rgb(0, 153, 51);
+    }
+
+.BottoneCerca {
+    border: thin solid rgb(48,63,159);
+    background-color: rgb(48,63,159);
+    text-decoration: none;
+    width: 150px;
+    height: 50px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    .BottoneCerca:hover {
+        background-color: white;
+        color: rgb(48,63,159);
+    }
+
+.BottonePulisci {
+    border: thin solid rgb(255,143,0);
+    background-color: rgb(255,143,0);
+    text-decoration: none;
+    width: 150px;
+    height: 50px;
+    color: White;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    .BottonePulisci:hover {
+        background-color: white;
+        color: rgb(255,143,0);
+    }
+
+#RisultatiRicerca {
+    position: relative;
+    top: 10px;
+    left: 0px;
+    right: 0px;
+    overflow: auto;
+}
+
+.GrdRisultatiRicerca {
+    border-collapse: separate !important;
+    background-color: transparent !important;
+}
+
+    .GrdRisultatiRicerca > tbody > tr {
+        border: 1px solid DarkGrey;
+    }
+
+        .GrdRisultatiRicerca > tbody > tr > td {
+            background-color: white;
+        }
+
+        .GrdRisultatiRicerca > tbody > tr > td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .GrdRisultatiRicerca > tbody > tr > td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
