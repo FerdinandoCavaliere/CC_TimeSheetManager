@@ -717,41 +717,7 @@ namespace TimeSheetManager
                     e.Row.FindControl("BtnModificaTimeSheet").Visible = false;
                 }
 
-                if (datoDellaRiga.ListaTasksLavorati != null && datoDellaRiga.ListaTasksLavorati.Count() > 0)
-                {
-                    e.Row.FindControl("LblNessunTask").Visible = false;
-
-                    ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataSource = datoDellaRiga.ListaTasksLavorati;
-                    ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataBind();
-
-                    e.Row.FindControl("LViewTasksLavorati").Visible = true;
-
-                    // Verifica che le ore lavorate effettive sono uguali o inferiore alla somma di quelle dichiarate nei tasks. E' il caso in cui l'orario della giornata viene
-                    // modificato DOPO aver inseriti i tasks.
-                    TimeSpan orarioEffettivo = datoDellaRiga.LavoratoEffettivo;
-                    TimeSpan sommaLavoratoTasks = new TimeSpan(0, 0, 0);
-                    foreach (var singolo in datoDellaRiga.ListaTasksLavorati)
-                    {
-                        sommaLavoratoTasks += singolo.Lavorato.Value;
-                    }
-                    if (sommaLavoratoTasks > orarioEffettivo)
-                    {
-                        ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/Rosso.png";
-                        ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
-                    }
-                    else if (sommaLavoratoTasks < orarioEffettivo)
-                    {
-                        ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/Giallo.png";
-                        ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
-                    }
-                }
-                else
-                {
-                    e.Row.FindControl("LblNessunTask").Visible = true;
-                    e.Row.FindControl("LViewTasksLavorati").Visible = false;
-                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/Giallo.png";
-                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
-                }
+                SettaIconaSituazioneTask(e, datoDellaRiga);
 
                 if (datoDellaRiga.InGaranzia)
                 {
@@ -759,6 +725,45 @@ namespace TimeSheetManager
                 }
 
                 
+            }
+        }
+
+        private void SettaIconaSituazioneTask(GridViewRowEventArgs e, TimeSheet datoDellaRiga)
+        {
+            if (datoDellaRiga.ListaTasksLavorati != null && datoDellaRiga.ListaTasksLavorati.Count() > 0)
+            {
+                e.Row.FindControl("LblNessunTask").Visible = false;
+
+                ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataSource = datoDellaRiga.ListaTasksLavorati;
+                ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataBind();
+
+                e.Row.FindControl("LViewTasksLavorati").Visible = true;
+
+                // Verifica che le ore lavorate effettive sono uguali o inferiore alla somma di quelle dichiarate nei tasks. E' il caso in cui l'orario della giornata viene
+                // modificato DOPO aver inseriti i tasks.
+                TimeSpan orarioEffettivo = datoDellaRiga.LavoratoEffettivo;
+                TimeSpan sommaLavoratoTasks = new TimeSpan(0, 0, 0);
+                foreach (var singolo in datoDellaRiga.ListaTasksLavorati)
+                {
+                    sommaLavoratoTasks += singolo.Lavorato.Value;
+                }
+                if (sommaLavoratoTasks > orarioEffettivo)
+                {
+                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_error.png";
+                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
+                }
+                else if (sommaLavoratoTasks < orarioEffettivo)
+                {
+                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
+                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
+                }
+            }
+            else
+            {
+                e.Row.FindControl("LblNessunTask").Visible = true;
+                e.Row.FindControl("LViewTasksLavorati").Visible = false;
+                ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
+                ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
             }
         }
 

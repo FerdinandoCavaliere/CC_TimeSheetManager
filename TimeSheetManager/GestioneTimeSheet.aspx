@@ -276,7 +276,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle">
                             <ItemTemplate>
-                                <asp:Image ID="ImgSituazioneTasks" runat="server" ImageUrl="~/Immagini/Verde.png" Height="25" Width="25" />
+                                <asp:Image ID="ImgSituazioneTasks" runat="server" ImageUrl="~/Immagini/outline_ok.png" Height="25" Width="25" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="80px"></ItemStyle>
                         </asp:TemplateField>
