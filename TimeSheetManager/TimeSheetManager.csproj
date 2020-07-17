@@ -1821,6 +1821,9 @@
     <Content Include="Immagini\check.png" />
     <Content Include="Immagini\Giallo.png" />
     <Content Include="Immagini\Mattonelle.png" />
+    <Content Include="Immagini\outline_error.png" />
+    <Content Include="Immagini\outline_info.png" />
+    <Content Include="Immagini\outline_ok.png" />
     <Content Include="Immagini\Rosso.png" />
     <Content Include="Immagini\Verde.png" />
     <Content Include="NonAutorizzato.aspx" />
