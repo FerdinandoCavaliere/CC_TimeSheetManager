@@ -1829,6 +1829,7 @@
     <Content Include="NonAutorizzato.aspx" />
     <Content Include="Styles\StiliAziende.css" />
     <Content Include="Styles\StiliConsolidamento.css" />
+    <Content Include="Styles\StiliDashBoard.css" />
     <Content Include="Styles\StiliMasterPage.css" />
     <Content Include="Styles\StiliPopup.css" />
     <Content Include="Styles\StiliRisorse.css" />
