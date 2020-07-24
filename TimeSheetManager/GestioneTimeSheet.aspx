@@ -175,7 +175,7 @@
                 <asp:Image ID="ImgSituazioneTaskErrata" runat="server" ImageUrl="~/Immagini/outline_error.png" Height="25" Width="25" />
                 <span class="testoLeggenda">Lavorato giornaliero inferiore alla somma del lavorato dei singoli tasks</span>
             </div>
-
+            
             <asp:Panel ID="PnlRisultatiRicerca" runat="server">
                 <asp:GridView
                     ID="GrdRisultatiRicerca"

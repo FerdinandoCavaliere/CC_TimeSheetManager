@@ -723,44 +723,49 @@ namespace TimeSheetManager
                 {
                     ((Label)e.Row.FindControl("LblGiornataInGaranzia")).Visible = true;
                 }
-
-                
             }
         }
 
         private void SettaIconaSituazioneTask(GridViewRowEventArgs e, TimeSheet datoDellaRiga)
         {
-            if (datoDellaRiga.ListaTasksLavorati != null && datoDellaRiga.ListaTasksLavorati.Count() > 0)
+            if (!datoDellaRiga.LavoratoInMinuti.HasValue || datoDellaRiga.LavoratoInMinuti.Value == 0)
             {
-                e.Row.FindControl("LblNessunTask").Visible = false;
-
-                ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataSource = datoDellaRiga.ListaTasksLavorati;
-                ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataBind();
-
-                e.Row.FindControl("LViewTasksLavorati").Visible = true;
-
-                // Verifica che le ore lavorate effettive sono uguali o inferiore alla somma di quelle dichiarate nei tasks. E' il caso in cui l'orario della giornata viene
-                // modificato DOPO aver inseriti i tasks.
-                TimeSpan orarioEffettivo = datoDellaRiga.LavoratoEffettivo;
-                TimeSpan sommaLavoratoTasks = new TimeSpan(0, 0, 0);
-                foreach (var singolo in datoDellaRiga.ListaTasksLavorati)
-                {
-                    sommaLavoratoTasks += singolo.Lavorato.Value;
-                }
-                if (sommaLavoratoTasks > orarioEffettivo)
-                {
-                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_error.png";
-                }
-                else if (sommaLavoratoTasks < orarioEffettivo)
-                {
-                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
-                }
+                ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_ok.png";
             }
             else
             {
-                e.Row.FindControl("LblNessunTask").Visible = true;
-                e.Row.FindControl("LViewTasksLavorati").Visible = false;
-                ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
+                if (datoDellaRiga.ListaTasksLavorati != null && datoDellaRiga.ListaTasksLavorati.Count() > 0)
+                {
+                    e.Row.FindControl("LblNessunTask").Visible = false;
+
+                    ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataSource = datoDellaRiga.ListaTasksLavorati;
+                    ((ListView)e.Row.FindControl("LViewTasksLavorati")).DataBind();
+
+                    e.Row.FindControl("LViewTasksLavorati").Visible = true;
+
+                    // Verifica che le ore lavorate effettive sono uguali o inferiore alla somma di quelle dichiarate nei tasks. E' il caso in cui l'orario della giornata viene
+                    // modificato DOPO aver inseriti i tasks.
+                    TimeSpan orarioEffettivo = datoDellaRiga.LavoratoEffettivo;
+                    TimeSpan sommaLavoratoTasks = new TimeSpan(0, 0, 0);
+                    foreach (var singolo in datoDellaRiga.ListaTasksLavorati)
+                    {
+                        sommaLavoratoTasks += singolo.Lavorato.Value;
+                    }
+                    if (sommaLavoratoTasks > orarioEffettivo)
+                    {
+                        ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_error.png";
+                    }
+                    else if (sommaLavoratoTasks < orarioEffettivo)
+                    {
+                        ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
+                    }
+                }
+                else
+                {
+                    e.Row.FindControl("LblNessunTask").Visible = true;
+                    e.Row.FindControl("LViewTasksLavorati").Visible = false;
+                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
+                }
             }
         }
 
