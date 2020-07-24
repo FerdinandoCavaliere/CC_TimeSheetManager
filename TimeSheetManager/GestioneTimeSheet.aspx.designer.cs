@@ -418,6 +418,15 @@ namespace TimeSheetManager {
         protected global::System.Web.UI.WebControls.Label LblOreLavorateGiornata;
         
         /// <summary>
+        /// LblOreUtilizzabiliGiornata control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblOreUtilizzabiliGiornata;
+        
+        /// <summary>
         /// DdlProgetti control.
         /// </summary>
         /// <remarks>

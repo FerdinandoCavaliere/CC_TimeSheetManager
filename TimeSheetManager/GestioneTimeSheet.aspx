@@ -450,13 +450,17 @@
             <div id="DivGestioneTask" style="position: absolute; top: 10px; bottom: 10px; left: 5px; right: 5px;">
                 <table style="width: 100%; text-align: left;">
                     <tr style="height: 50px;">
-                        <td>Ore lavorate
+                        <td>Ore lavorate totali
                         </td>
                         <td>
                             <asp:Label ID="LblOreLavorateGiornata" runat="server"
                                 Text="00:00" Font-Bold="true" ForeColor="DarkBlue"></asp:Label>
                         </td>
-                        <td colspan="2"></td>
+                        <td>Ore utilizzabili</td>
+                        <td>
+                            <asp:Label ID="LblOreUtilizzabiliGiornata" runat="server"
+                                Text="-" Font-Bold="true" ForeColor="DarkBlue"></asp:Label>
+                        </td>
                     </tr>
                     <tr style="height: 50px;">
                         <td style="width: 20%">Progetti

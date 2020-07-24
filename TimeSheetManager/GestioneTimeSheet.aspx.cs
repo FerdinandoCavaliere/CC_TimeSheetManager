@@ -838,6 +838,10 @@ namespace TimeSheetManager
 
                 RecuperaTaskLavorati(idTimesheet);
 
+                VisualizzaTempoTotaleGiornata();
+
+                VisualizzaTempoDisponibileGiornata();
+
                 GestioneTask_ModalPopupExtender.Show();
             }
             catch (Exception ex)
@@ -849,9 +853,7 @@ namespace TimeSheetManager
 
         private void RecuperaGiornataSelezionata(int idTimesheet)
         {
-            TimeSheet giornata = tsc.GetSingolaGiornataConCalcoliEffettivi(idTimesheet);
-            ViewState["GIORNATASELEZIONATAPERGESTIONETASK"] = giornata;
-            LblOreLavorateGiornata.Text = giornata.LavoratoEffettivo.ToString().Substring(0, giornata.LavoratoEffettivo.ToString().Length - 3);
+            ViewState["GIORNATASELEZIONATAPERGESTIONETASK"] = tsc.GetSingolaGiornataConCalcoliEffettivi(idTimesheet);
         }
 
         private void RecuperaTaskLavorati(int idTimesheet)
@@ -860,6 +862,32 @@ namespace TimeSheetManager
             ViewState["TASKSLAVORATIGIORNATA"] = tasksLavorati;
             GrdTasksLavorati.DataSource = tasksLavorati;
             GrdTasksLavorati.DataBind();
+        }
+
+        private void VisualizzaTempoTotaleGiornata()
+        {
+            TimeSheet giornata = ViewState["GIORNATASELEZIONATAPERGESTIONETASK"] as TimeSheet;
+            LblOreLavorateGiornata.Text = giornata.LavoratoEffettivo.ToString().Substring(0, giornata.LavoratoEffettivo.ToString().Length - 3);
+        }
+
+        private void VisualizzaTempoDisponibileGiornata()
+        {
+            TimeSheet giornata = ViewState["GIORNATASELEZIONATAPERGESTIONETASK"] as TimeSheet;
+            if (ViewState["TASKSLAVORATIGIORNATA"] != null)
+            {
+                List<TasksLavorati> tasksLavorati = ViewState["TASKSLAVORATIGIORNATA"] as List<TasksLavorati>;
+                TimeSpan oreLavorateGiaPresenti = new TimeSpan(0, 0, 0);
+                foreach (var singolo in tasksLavorati)
+                {
+                    oreLavorateGiaPresenti += singolo.Lavorato.Value;
+                }
+                TimeSpan oreDisponibili = giornata.LavoratoEffettivo - oreLavorateGiaPresenti;
+                LblOreUtilizzabiliGiornata.Text = oreDisponibili.ToString().Substring(0, oreDisponibili.ToString().Length - 3);
+            }
+            else
+            {
+                LblOreUtilizzabiliGiornata.Text = giornata.LavoratoEffettivo.ToString().Substring(0, giornata.LavoratoEffettivo.ToString().Length - 3);
+            }
         }
 
         protected void BtnPulisciTask_Click(object sender, EventArgs e)
@@ -921,6 +949,7 @@ namespace TimeSheetManager
                     break;
                 case "EliminaTask":
                     EiminaSingoloTask(Convert.ToInt32(e.CommandArgument));
+                    VisualizzaTempoDisponibileGiornata();
                     break;
             }
         }
@@ -966,6 +995,7 @@ namespace TimeSheetManager
                 tc.SaveTaskLavorato(taskLavorato);
                 PulisciGestioneTask();
                 RecuperaTaskLavorati(taskLavorato.TimeSheet_FK);
+                VisualizzaTempoDisponibileGiornata();
             }
             GestioneTask_ModalPopupExtender.Show();
         }
@@ -996,7 +1026,7 @@ namespace TimeSheetManager
             TimeSpan oreLavorateGiaPresenti = new TimeSpan(0, 0, 0);
 
             List<TasksLavorati> tasksLavorati = ViewState["TASKSLAVORATIGIORNATA"] as List<TasksLavorati>;
-            // Sommo le ore già presenti nei task del giorno alnetto di quello che sto controllando
+            // Sommo le ore già presenti nei task del giorno al netto di quello che sto controllando
             int idTaskDaEscludereDalConteggio = HdnIdTask.Value == string.Empty ? 0 : Convert.ToInt32(HdnIdTask.Value);
             foreach (var singolo in tasksLavorati.Where(t => t.Id != idTaskDaEscludereDalConteggio))
             {
