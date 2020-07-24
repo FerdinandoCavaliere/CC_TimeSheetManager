@@ -21,7 +21,7 @@ namespace TimeSheetManager.Classi
         {
             try
             {
-                List<ValuesXYaxis<int, int>> elenco = new List<ValuesXYaxis<int, int>>(); // Valori dalla query linq
+                List<ValuesXYaxis<int, float>> elenco = new List<ValuesXYaxis<int, float>>(); // Valori dalla query linq
                 List<ValuesXYaxis<string, string>> elencoDefinitivo = new List<ValuesXYaxis<string, string>>(); // Elenco ddefinitivo con tutti i mesi
 
                 using (var context = new TimesheetEntities())
@@ -32,7 +32,7 @@ namespace TimeSheetManager.Classi
                                  select raggruppamento;
                     foreach (var g in result)
                     {
-                        elenco.Add(new ValuesXYaxis<int, int> { XAxes = g.Key, YAxes = g.Sum(s => s.LavoratoInMinuti.Value) / 60 });
+                        elenco.Add(new ValuesXYaxis<int, float> { XAxes = g.Key, YAxes = g.Sum(s => s.LavoratoInMinuti.Value) / 60F });
                     }
 
                     // Completo tutti i mesi
@@ -43,7 +43,7 @@ namespace TimeSheetManager.Classi
                         var temp = elenco.Where(t => t.XAxes == m.indice);
                         if (temp != null && temp.Count() > 0)
                         {
-                            nuovo.YAxes = temp.First().YAxes.ToString();
+                            nuovo.YAxes = temp.First().YAxes.ToString().Replace(',', '.');
                         }
                         elencoDefinitivo.Add(nuovo);
                     }
@@ -94,7 +94,7 @@ namespace TimeSheetManager.Classi
             int anno,
             string figura_FK)
         {
-            List<ValuesXYaxis<int, int>> elenco = new List<ValuesXYaxis<int, int>>(); // Valori dalla query linq
+            List<ValuesXYaxis<int, float>> elenco = new List<ValuesXYaxis<int, float>>(); // Valori dalla query linq
             List<ValuesXYaxis<string, string>> elencoDefinitivo = new List<ValuesXYaxis<string, string>>(); // Elenco ddefinitivo con tutti i mesi
 
             using (var context = new TimesheetEntities())
@@ -107,7 +107,7 @@ namespace TimeSheetManager.Classi
                              select raggruppamento;
                 foreach (var g in result)
                 {
-                    elenco.Add(new ValuesXYaxis<int, int> { XAxes = g.Key, YAxes = g.Sum(s => s.LavoratoInMinuti.Value) / 60 });
+                    elenco.Add(new ValuesXYaxis<int, float> { XAxes = g.Key, YAxes = g.Sum(s => s.LavoratoInMinuti.Value) / 60F });
                 }
 
                 // Completo tutti i mesi
@@ -118,7 +118,7 @@ namespace TimeSheetManager.Classi
                     var temp = elenco.Where(t => t.XAxes == m.indice);
                     if (temp != null && temp.Count() > 0)
                     {
-                        nuovo.YAxes = temp.First().YAxes.ToString();
+                        nuovo.YAxes = temp.First().YAxes.ToString().Replace(',', '.');
                     }
                     elencoDefinitivo.Add(nuovo);
                 }

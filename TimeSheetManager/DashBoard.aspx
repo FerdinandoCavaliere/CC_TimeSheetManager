@@ -74,6 +74,11 @@
                     },
                     legend: {
                         display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: CreaLabelOreMinuti
+                        }
                     }
                 }
             });
@@ -106,6 +111,11 @@
                     },
                     legend: {
                         display: true
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: CreaLabelOreMinuti
+                        }
                     }
                 }
             });
@@ -208,6 +218,20 @@
                     }
                 }
             });
+        }
+
+        function CreaLabelOreMinuti(tooltipItem, data) {
+            var labelText;
+            var oreMinuti = tooltipItem.value.split('.'); // Divido ore e minuti
+            var ore = oreMinuti[0];
+            labelText = ore + ' ore'
+            if (oreMinuti.length > 1) {
+                var minuti = 60.0 / 100.0 * parseInt(oreMinuti[1].length == 1 ? oreMinuti[1] + '0' : oreMinuti[1])
+                labelText += " e " +
+                    minuti +
+                    ' minuti';
+            }
+            return labelText;
         }
 
         CreaDashBoardOrePerMese();
