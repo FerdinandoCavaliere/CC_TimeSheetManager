@@ -284,24 +284,29 @@ namespace TimeSheetManager.Classi
             }
         }
 
-        public List<int> GetAnniTaskValidi(string risorsa_FK)
+        public List<int> GetAnniTaskValidi()
         {
             try
             {
                 using (var context = new TimesheetEntities())
                 {
-                    return context.TimeSheet
-                        .Where(t => t.Data.Year > 2013 && t.Risorse_FK == risorsa_FK)
-                        .Select(s => s.Data.Year)
+                    var anniPresenti = context.TimeSheet
+                        .Where(t => t.Data.Year >= 2014)
+                        ?.Select(s => s.Data.Year)
                         .Distinct()
                         .OrderByDescending(o => o)
-                        .ToList();
+                        .ToList() ?? new List<int>();
+
+                    if (!anniPresenti.Contains(DateTime.Now.Year))
+                    {
+                        anniPresenti.Insert(0, DateTime.Now.Year);
+                    }
+                    return anniPresenti.ToList();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 

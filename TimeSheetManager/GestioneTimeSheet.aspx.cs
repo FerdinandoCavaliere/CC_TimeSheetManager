@@ -750,12 +750,10 @@ namespace TimeSheetManager
                 if (sommaLavoratoTasks > orarioEffettivo)
                 {
                     ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_error.png";
-                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
                 }
                 else if (sommaLavoratoTasks < orarioEffettivo)
                 {
                     ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
-                    ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
                 }
             }
             else
@@ -763,7 +761,6 @@ namespace TimeSheetManager
                 e.Row.FindControl("LblNessunTask").Visible = true;
                 e.Row.FindControl("LViewTasksLavorati").Visible = false;
                 ((Image)e.Row.FindControl("ImgSituazioneTasks")).ImageUrl = "~/Immagini/outline_info.png";
-                ((Image)e.Row.FindControl("ImgSituazioneTasks")).ToolTip = "Valori non congruenti tra le ore lavorate della giornata e quelle dei singoli tasks";
             }
         }
 

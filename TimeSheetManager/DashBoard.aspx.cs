@@ -64,8 +64,7 @@ namespace TimeSheetManager
 
         private void CaricaAnniTaskValidi()
         {
-            Risorse risorsa = Session["RISORSA"] as Risorse;
-            List<int> anni = dbc.GetAnniTaskValidi(risorsa.Codice);
+            List<int> anni = dbc.GetAnniTaskValidi();
             if (ViewState["ANNOSELEZIONATO"] == null)
             {
                 ViewState["ANNOSELEZIONATO"] = anni.First();

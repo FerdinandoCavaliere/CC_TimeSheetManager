@@ -167,6 +167,14 @@
                 Differenza
                 <asp:Label ID="LblDifferenza" runat="server" Text="-"></asp:Label>&nbsp;(hhh:mm)
             </div>
+            <div id="LegendaIconeTasks">
+                <asp:Image ID="ImgSituazioneTaskOk" runat="server" ImageUrl="~/Immagini/outline_ok.png" Height="25" Width="25" />
+                <span class="testoLeggenda">Situazione tasks corretta</span>
+                <asp:Image ID="ImgSituazioneTaskAttenzione" runat="server" ImageUrl="~/Immagini/outline_info.png" Height="25" Width="25" />
+                <span class="testoLeggenda">Lavorato giornaliero superiore alla somma del lavorato dei singoli tasks</span>
+                <asp:Image ID="ImgSituazioneTaskErrata" runat="server" ImageUrl="~/Immagini/outline_error.png" Height="25" Width="25" />
+                <span class="testoLeggenda">Lavorato giornaliero inferiore alla somma del lavorato dei singoli tasks</span>
+            </div>
 
             <asp:Panel ID="PnlRisultatiRicerca" runat="server">
                 <asp:GridView

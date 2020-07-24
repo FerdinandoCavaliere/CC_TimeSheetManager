@@ -164,6 +164,22 @@
         color: rgb(211,47,47);
     }
 
+#LegendaIconeTasks {
+    border: 1px solid black;
+    padding: 8px 0;
+    margin: 5px auto;
+    width: 98%;
+    text-align: center;
+}
+
+.testoLeggenda {
+    position: relative;
+    top: -8px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 100px;
+}
+
 #TotaliOre {
     position: relative;
     margin-top: 10px;

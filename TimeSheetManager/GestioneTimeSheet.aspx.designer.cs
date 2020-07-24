@@ -301,6 +301,33 @@ namespace TimeSheetManager {
         protected global::System.Web.UI.WebControls.Label LblDifferenza;
         
         /// <summary>
+        /// ImgSituazioneTaskOk control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImgSituazioneTaskOk;
+        
+        /// <summary>
+        /// ImgSituazioneTaskAttenzione control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImgSituazioneTaskAttenzione;
+        
+        /// <summary>
+        /// ImgSituazioneTaskErrata control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImgSituazioneTaskErrata;
+        
+        /// <summary>
         /// PnlRisultatiRicerca control.
         /// </summary>
         /// <remarks>
