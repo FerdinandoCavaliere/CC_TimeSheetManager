@@ -11,9 +11,6 @@ namespace TimeSheetManager
         ConsolidamentoController consc = new ConsolidamentoController();
         ContrattiController contc = new ContrattiController();
 
-        const string MESE_DA_CONSOLIDARE = "Mese da consolidare";
-        const string SEMESTRE_DA_CONSOLIDARE = "Semestre da consolidare";
-
         #region Comuni e eventi
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -72,12 +69,12 @@ namespace TimeSheetManager
 
             if (RbtnOperazione.SelectedIndex == 0)
             {
-                LblPeriodoConsolidamento.Text = MESE_DA_CONSOLIDARE;
+                LblPeriodoConsolidamento.Text = MessaggiLabels.MESE_DA_CONSOLIDARE;
                 DdlMese.Visible = true;
             }
             else
             {
-                LblPeriodoConsolidamento.Text = SEMESTRE_DA_CONSOLIDARE;
+                LblPeriodoConsolidamento.Text = MessaggiLabels.SEMESTRE_DA_CONSOLIDARE;
                 DdlSemestre.Visible = true;
             }
         }
@@ -238,7 +235,7 @@ namespace TimeSheetManager
             else
             {
                 GrdRisultatiRicercaMese.DataSource = null;
-                LblMessaggio.Text = "La ricerca non ha prodotto risultati";
+                LblMessaggio.Text = MessaggiAlert.RICERCA_NO_RISULTATI;
                 Messaggio_ModalPopupExtender.Show();
             }
             GrdRisultatiRicercaMese.DataBind();
@@ -272,7 +269,7 @@ namespace TimeSheetManager
 
                 consc.InsertConsolidamentoMese(elencoDaInserire);
                 Cerca();
-                LblMessaggio.Text = "Operazione avvenuta con successo";
+                LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                 Messaggio_ModalPopupExtender.Show();
             }
             else
@@ -296,7 +293,7 @@ namespace TimeSheetManager
                 if (elenco != null && elenco.Count() > 0)
                 {
                     GrdConsolidamentoEsistenteMese.DataSource = elenco;
-                    LblMessaggio.Text = "Il periodo risulta già consolidato. Viene visualizzata una griglia secondaria riempita con i valori prevedentemente consolidati";
+                    LblMessaggio.Text = MessaggiAlert.PERIODO_GIA_CONSOLIDATO;
                     Messaggio_ModalPopupExtender.Show();
                     PnlConsolidamentoEsistente.Visible = true;
                 }
@@ -347,7 +344,7 @@ namespace TimeSheetManager
             else
             {
                 GrdRisultatiRicercaSemestre.DataSource = null;
-                LblMessaggio.Text = "La ricerca non ha prodotto risultati";
+                LblMessaggio.Text = MessaggiAlert.RICERCA_NO_RISULTATI;
                 Messaggio_ModalPopupExtender.Show();
             }
             GrdRisultatiRicercaSemestre.DataBind();
@@ -381,7 +378,7 @@ namespace TimeSheetManager
 
                 consc.InsertConsolidamentoSemestre(elencoDaInserire);
                 Cerca();
-                LblMessaggio.Text = "Operazione avvenuta con successo";
+                LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                 Messaggio_ModalPopupExtender.Show();
             }
             else
@@ -405,7 +402,7 @@ namespace TimeSheetManager
                 if (elenco != null && elenco.Count() > 0)
                 {
                     GrdConsolidamentoEsistenteSemestre.DataSource = elenco;
-                    LblMessaggio.Text = "Il periodo risulta già consolidato. Viene visualizzata una griglia secondaria riempita con i valori prevedentemente consolidati";
+                    LblMessaggio.Text = MessaggiAlert.PERIODO_GIA_CONSOLIDATO;
                     Messaggio_ModalPopupExtender.Show();
                     PnlConsolidamentoEsistente.Visible = true;
                 }

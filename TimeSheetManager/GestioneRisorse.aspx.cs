@@ -140,7 +140,7 @@ namespace TimeSheetManager
                         break;
                 }
 
-                LblMessaggio.Text = "Operazione avvenuta con successo";
+                LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                 Messaggio_ModalPopupExtender.Show();
             }
             catch (Exception ex)
@@ -177,7 +177,7 @@ namespace TimeSheetManager
                     case "Elimina":
                         rc.DeleteRisorsa(chiave.Value.ToString());
                         this.cerca();
-                        LblMessaggio.Text = "Operazione avvenuta con successo";
+                        LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                         Messaggio_ModalPopupExtender.Show();
                         break;
                 }

@@ -125,7 +125,6 @@ namespace TimeSheetManager
                 {
                     DdlFigura.SelectedValue = fc.GetRuoloDiDefaultByCodiceRisorsa(DdlRisorsa.SelectedValue);
                 }
-
             }
             catch (Exception ex)
             {
@@ -143,7 +142,7 @@ namespace TimeSheetManager
                 }
                 else
                 {
-                    LblMessaggio.Text = "I valori in minuti del campo Ore Rrendicontate possono essere 00, 15, 30, 45";
+                    LblMessaggio.Text = MessaggiAlert.VALORI_CONSENTITI_RENDICONTATE;
                     Messaggio_ModalPopupExtender.Show();
                 }
             }
@@ -330,7 +329,7 @@ namespace TimeSheetManager
                 }
                 else
                 {
-                    LblMessaggio.Text = "I valori in minuti del campo Ore Rrendicontate possono essere 00, 15, 30, 45";
+                    LblMessaggio.Text = MessaggiAlert.VALORI_CONSENTITI_RENDICONTATE;
                     Messaggio_ModalPopupExtender.Show();
                 }
             }
@@ -1007,12 +1006,12 @@ namespace TimeSheetManager
             // Verifica campi obbligatori
             if (DdlTask.SelectedIndex == -1)
             {
-                LblMessaggioGestioneTask.Text = "Selezionare un task";
+                LblMessaggioGestioneTask.Text = MessaggiAlert.SELEZIONARE_TASK;
                 return false;
             }
             if (TxtOreLavorateTask.Text == string.Empty)
             {
-                LblMessaggioGestioneTask.Text = "Inserire ore lavorate";
+                LblMessaggioGestioneTask.Text = MessaggiAlert.INSERIRE_ORE_LAVORATE;
                 return false;
             }
 

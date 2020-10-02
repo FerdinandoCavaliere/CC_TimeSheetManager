@@ -58,6 +58,15 @@ namespace TimeSheetManager {
         protected global::System.Web.UI.WebControls.DropDownList DdlRisorsa;
         
         /// <summary>
+        /// DdlFigura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlFigura;
+        
+        /// <summary>
         /// DdlMese control.
         /// </summary>
         /// <remarks>

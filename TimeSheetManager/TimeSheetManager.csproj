@@ -34,7 +34,7 @@
     <IISExpressUseClassicPipelineMode>true</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -1857,6 +1858,7 @@
     <Compile Include="Classi\DashBoardController.cs" />
     <Compile Include="Classi\Enumeratori.cs" />
     <Compile Include="Classi\FigureProfessionaliController.cs" />
+    <Compile Include="Classi\Messaggi.cs" />
     <Compile Include="Classi\RisorsaController.cs" />
     <Compile Include="Classi\TaskController.cs" />
     <Compile Include="Classi\TimeSheetController.cs" />
@@ -2013,7 +2015,7 @@
       <DependentUpon>DataSetSingoloTask.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\Locale_Sviluppo.pubxml" />
+    <None Include="Properties\PublishProfiles\Locale_Collaudo.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

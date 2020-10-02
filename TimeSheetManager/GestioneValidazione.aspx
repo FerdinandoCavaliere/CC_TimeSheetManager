@@ -57,13 +57,21 @@
                                     </td>
                                     <td>
                                         <asp:DropDownList ID="DdlRisorsa" runat="server" Width="200" CssClass="Testo"
-                                            DataTextField="Nominativo" DataValueField="Codice">
+                                            DataTextField="Nominativo" DataValueField="Codice"
+                                            AutoPostBack="true" OnSelectedIndexChanged="DdlRisorsa_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td>Figura
+                                    </td>
+                                    <td>
+                                        <asp:DropDownList ID="DdlFigura" runat="server" Width="280" CssClass="Testo"
+                                            DataTextField="Descrizione" DataValueField="Codice">
                                         </asp:DropDownList>
                                     </td>
                                     <td>Mese
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="DdlMese" runat="server" Width="200" CssClass="Testo">
+                                        <asp:DropDownList ID="DdlMese" runat="server" Width="100" CssClass="Testo">
                                             <asp:ListItem Text="Gennaio" Value="1" />
                                             <asp:ListItem Text="Febbraio" Value="2" />
                                             <asp:ListItem Text="Marzo" Value="3" />
@@ -81,7 +89,7 @@
                                     <td>Anno
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="DdlAnno" runat="server" Width="200" CssClass="Testo" />
+                                        <asp:DropDownList ID="DdlAnno" runat="server" Width="80" CssClass="Testo" />
                                     </td>
                                     <td class="TastiCercaNuovoPulisci">
                                         <asp:Button ID="BtnCerca" runat="server" Text="Cerca" 

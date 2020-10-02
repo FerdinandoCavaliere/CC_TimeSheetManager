@@ -148,7 +148,7 @@ namespace TimeSheetManager
 
                 if (campoValorizzato)
                 {
-                    LblMessaggio.Text = "Non è possibile effettuare ricercche se i campi delle giornate per risorsa sono valorizzati";
+                    LblMessaggio.Text = MessaggiAlert.IMPOSSIBILE_CERCARE_SE_CAMPI_RISORSA_E_GIORNATE_NON_VALORIZZATI;
                     Messaggio_ModalPopupExtender.Show();
                 }
                 else
@@ -271,7 +271,7 @@ namespace TimeSheetManager
                     }
 
                     Cerca();
-                    LblMessaggio.Text = "Operazione avvenuta con successo";
+                    LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                 }
                 else
                 {
@@ -296,19 +296,19 @@ namespace TimeSheetManager
                 esito = Int32.TryParse(TxtNumeroTask.Text, out int numero);
                 if (!esito)
                 {
-                    return "Inserire un Numero di task valido";
+                    return MessaggiAlert.INSERIRE_NUMERO_TASK_VALIDO;
                 }
 
                 esito = DateTime.TryParse(TxtDataRichiesta.Text, out DateTime data);
                 if (!esito)
                 {
-                    return "Inserire una data richiesta di task valida";
+                    return MessaggiAlert.INSERIRE_DATA_RICHIESTA_TASK_VALIDA;
                 }
 
                 esito = decimal.TryParse(TxtNumeroTotaleGiornate.Text.Replace(".", ","), out decimal totaleGiornate);
                 if (!esito)
                 {
-                    return "Inserire una numero di totale giornate di task valido";
+                    return MessaggiAlert.INSERIRE_NUMERO_GIORNATE_TOTALE_TASK_VALIDO;
                 }
 
                 decimal totaleGiornateCalcolato = decimal.Zero;
@@ -327,12 +327,12 @@ namespace TimeSheetManager
 
                 if (!esito)
                 {
-                    return "Inserire una numero di giornate di task per figura valido";
+                    return MessaggiAlert.INSERIRE_NUMERO_GIORNATE_PER_FIGURA;
                 }
 
                 if (totaleGiornate != totaleGiornateCalcolato)
                 {
-                    return "Il totale delle giornate inserito non è conforme al numero di giornate per figura professionale";
+                    return MessaggiAlert.GIORNATE_TOTALI_NON_CONFORME_A_SINGOLE_FIGURE;
                 }
 
                 return string.Empty;
@@ -450,13 +450,13 @@ namespace TimeSheetManager
                     case "Elimina":
                         tc.DeleteTask(Convert.ToInt32(e.CommandArgument));
                         Cerca();
-                        LblMessaggio.Text = "Operazione avvenuta con successo";
+                        LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                         Messaggio_ModalPopupExtender.Show();
                         break;
                     case "Termina":
                         tc.TerminaTask(Convert.ToInt32(e.CommandArgument));
                         Cerca();
-                        LblMessaggio.Text = "Operazione avvenuta con successo";
+                        LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                         Messaggio_ModalPopupExtender.Show();
                         break;
                     case "Stampa":
@@ -558,7 +558,7 @@ namespace TimeSheetManager
                     }
                     else
                     {
-                        LblMessaggio.Text = "Non è stato possibile reperire i dati del task";
+                        LblMessaggio.Text = MessaggiAlert.IMPOSSIBILE_REPERIRE_DATI_TASK;
                         Messaggio_ModalPopupExtender.Show();
                     }
                 }

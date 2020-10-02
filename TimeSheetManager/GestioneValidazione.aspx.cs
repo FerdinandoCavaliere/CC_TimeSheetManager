@@ -11,6 +11,7 @@ namespace TimeSheetManager
 {
     public partial class GestioneValidazione : System.Web.UI.Page
     {
+        FigureProfessionaliController fc = new FigureProfessionaliController();
         RisorsaController rc = new RisorsaController();
         TimeSheetController tc = new TimeSheetController();
 
@@ -21,6 +22,7 @@ namespace TimeSheetManager
                 if (!IsPostBack)
                 {
                     CaricaRisorse();
+                    CaricaFigureProfessionali();
                     CaricaAnni();
                     Inizializza();
                 }   
@@ -38,12 +40,23 @@ namespace TimeSheetManager
             {
                 NascondiPanelli();
                 CalendarValidazione.SelectedDate = DateTime.Now.Date;
+                SettaMeseCorrente();
                 PnlMese.Visible = true;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        private void SettaMeseCorrente()
+        {
+            DdlMese.SelectedValue = DateTime.Now.Month.ToString();
+        }
+
+        private void SettaAnnoCorrente()
+        {
+            DdlAnno.SelectedValue = DateTime.Now.Year.ToString();
         }
 
         private void CaricaRisorse()
@@ -70,7 +83,7 @@ namespace TimeSheetManager
                 {
                     DdlAnno.Items.Add(i.ToString());
                 }
-                DdlAnno.SelectedValue = DateTime.Now.Year.ToString();
+                SettaAnnoCorrente();
             }
             catch (Exception ex)
             {
@@ -91,6 +104,43 @@ namespace TimeSheetManager
             }
         }
 
+        protected void DdlRisorsa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CaricaFigureProfessionali();
+        }
+
+        private void CaricaFigureProfessionali()
+        {
+            try
+            {
+                List<FigureProfessionali> elenco = null;
+                if (DdlRisorsa.SelectedIndex == 0)
+                {
+                    elenco = fc.GetFigure(string.Empty, string.Empty, null, null, null, null, null);
+                }
+                else
+                {
+                    elenco = fc.GetFigureByCodiceRisorsa(DdlRisorsa.SelectedValue);
+                }
+                DdlFigura.DataSource = elenco;
+                DdlFigura.DataBind();
+
+                if ((Session["RISORSA"] as Risorse).IsAdmin)
+                {
+                    DdlFigura.Items.Insert(0, new ListItem("----- Tutte -----"));
+                }
+
+                if (DdlRisorsa.SelectedIndex != 0)
+                {
+                    DdlFigura.SelectedValue = fc.GetRuoloDiDefaultByCodiceRisorsa(DdlRisorsa.SelectedValue);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void CercaPerGiorno()
         {
             List<TimeSheetManager.Model.TimeSheet> elenco = tc.GetTimeSheet(CalendarValidazione.SelectedDate,
@@ -104,7 +154,7 @@ namespace TimeSheetManager
             }
             else
             {
-                LblMessaggio.Text = "Nessun dato reperito";
+                LblMessaggio.Text = MessaggiAlert.RICERCA_NO_RISULTATI;
                 Messaggio_ModalPopupExtender.Show();
             }
         }
@@ -119,7 +169,8 @@ namespace TimeSheetManager
 
                 List<TimeSheetManager.Model.TimeSheet> elenco = tc.GetTimeSheet(Convert.ToInt32(DdlMese.SelectedValue),
                     Convert.ToInt32(DdlAnno.SelectedValue),
-                    DdlRisorsa.SelectedValue);
+                    DdlRisorsa.SelectedValue,
+                    DdlFigura.SelectedIndex == 0 ? string.Empty : DdlFigura.SelectedValue);
                 if (elenco != null && elenco.Count > 0)
                 {
                     GrdRisultatiRicerca.DataSource = elenco.Where(t => t.OreLavorate != 0);
@@ -131,7 +182,7 @@ namespace TimeSheetManager
                 else
                 {
                     GrdRisultatiRicerca.DataSource = null;
-                    LblMessaggio.Text = "Nessun dato reperito";
+                    LblMessaggio.Text = MessaggiAlert.RICERCA_NO_RISULTATI;
                     Messaggio_ModalPopupExtender.Show();
                 }
                 GrdRisultatiRicerca.DataBind();
@@ -165,9 +216,10 @@ namespace TimeSheetManager
                     break;
                 case "Mese":
                     PnlMese.Visible = true;
-                    DdlRisorsa.SelectedIndex = 0;
-                    DdlMese.SelectedValue = DateTime.Now.Month.ToString();
-                    DdlAnno.SelectedValue = DateTime.Now.Year.ToString();
+                    DdlRisorsa.SelectedValue = (Session["RISORSA"] as Risorse).Codice;
+                    CaricaFigureProfessionali();
+                    SettaMeseCorrente();
+                    SettaAnnoCorrente();
                     PnlTotaleOreLavorate.Visible = false;
                     LblOreLavorateTotali.Text = string.Empty;
                     LblGiorniLavoratiTotali.Text = string.Empty;
@@ -223,7 +275,7 @@ namespace TimeSheetManager
                                 break;
                         }
 
-                        LblMessaggio.Text = "Operazione avvenuta con successo";
+                        LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
                         Messaggio_ModalPopupExtender.Show();
                     }
                 }
@@ -289,9 +341,10 @@ namespace TimeSheetManager
                     CercaPerGiorno();
                     break;
                 case "Mese":
-                    DdlRisorsa.SelectedIndex = 0;
-                    DdlMese.SelectedValue = DateTime.Now.Month.ToString();
-                    DdlAnno.SelectedValue = DateTime.Now.Year.ToString();
+                    DdlRisorsa.SelectedValue = (Session["RISORSA"] as Risorse).Codice;
+                    CaricaFigureProfessionali();
+                    SettaMeseCorrente();
+                    SettaAnnoCorrente();
                     PnlTotaleOreLavorate.Visible = false;
                     LblOreLavorateTotali.Text = string.Empty;
                     LblGiorniLavoratiTotali.Text = string.Empty;

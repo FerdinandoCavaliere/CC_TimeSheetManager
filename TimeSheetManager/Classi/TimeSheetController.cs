@@ -164,7 +164,11 @@ namespace TimeSheetManager.Classi
             }
         }
 
-        public List<TimeSheet> GetTimeSheet(int mese, int anno, string risorse_Fk)
+        public List<TimeSheet> GetTimeSheet(
+            int mese, 
+            int anno, 
+            string risorse_Fk,
+            string figure_Fk)
         {
             try
             {
@@ -175,7 +179,8 @@ namespace TimeSheetManager.Classi
                                        (
                                             t.Data.Month == mese &&
                                             t.Data.Year == anno &&
-                                            t.Risorse_FK == risorse_Fk
+                                            t.Risorse_FK == risorse_Fk &&
+                                            (figure_Fk == string.Empty || t.FigureProfessionali_FK == figure_Fk)
                                        )
                                        orderby t.Data ascending, t.Ingresso ascending, t.FigureProfessionali_FK ascending
                                        select t;
