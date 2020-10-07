@@ -27,12 +27,14 @@ namespace TimeSheetManager.Classi
                             Contratti nuovoContratto = null;
                             foreach (Contratti singoloContratto in contratti)
                             {
-                                nuovoContratto = new Contratti();
-                                nuovoContratto.Id = singoloContratto.Id;
-                                nuovoContratto.valoriConcatenati = singoloContratto.Anno.ToString() + 
-                                    " | " + 
-                                    singoloContratto.Descizione?.ToString() ?? string.Empty;
-                                nuovoContratto.Anno = singoloContratto.Anno;
+                                nuovoContratto = new Contratti
+                                {
+                                    Id = singoloContratto.Id,
+                                    valoriConcatenati = singoloContratto.Anno.ToString() +
+                                    " | " +
+                                    singoloContratto.Descizione?.ToString() ?? string.Empty,
+                                    Anno = singoloContratto.Anno
+                                };
                                 elencoDefinitivo.Add(nuovoContratto);
                             }
                             return elencoDefinitivo;
@@ -61,11 +63,7 @@ namespace TimeSheetManager.Classi
                         .Contratti
                         .Where(c => c.Anno == anno)
                         .OrderByDescending(c => c.Numero);
-                    if (contratti != null && contratti.Count() > 0)
-                    {
-                        return contratti.ToList();
-                    }
-                    return null;
+                    return contratti?.ToList();
                 }
             }
             catch (Exception ex)

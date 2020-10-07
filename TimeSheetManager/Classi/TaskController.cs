@@ -60,11 +60,14 @@ namespace TimeSheetManager.Classi
                         if (getValoriConcatenati)
                         {
                             List<Tasks> elenco = new List<Tasks>();
+                            Tasks nuovo;
                             foreach (var singoloTask in taskTmp)
                             {
-                                Tasks nuovo = new Tasks();
-                                nuovo.Id = singoloTask.Id;
-                                nuovo.ValoriConcatenati = singoloTask.NumeroTask + " | " + singoloTask.Progetto_FK + " | " + singoloTask.Titolo;
+                                nuovo = new Tasks
+                                {
+                                    Id = singoloTask.Id,
+                                    ValoriConcatenati = singoloTask.NumeroTask + " | " + singoloTask.Progetto_FK + " | " + singoloTask.Titolo
+                                };
                                 elenco.Add(nuovo);
                             }
                             return elenco;
@@ -118,6 +121,7 @@ namespace TimeSheetManager.Classi
                                         (FiglioDi == null || t1.FiglioDi == FiglioDi) &&
                                         p2.Valido == true
                                     )
+                                    orderby t1.NumeroTask descending, t1.DataRichiesta descending
                                     select new {
                                         t1.Id,
                                         IdContratto = c1.Id,
@@ -138,27 +142,22 @@ namespace TimeSheetManager.Classi
                         Tasks nuovo = null;
                         foreach (var singolo in tasksTmp.Distinct())
                         {
-                            nuovo = new Tasks();
-                            nuovo.Id = singolo.Id;
-                            nuovo.NumeroTask = singolo.NumeroTask;
-                            if (singolo.Titolo.Length > 90)
+                            nuovo = new Tasks
                             {
-                                nuovo.Titolo = singolo.Titolo.Substring(0, 90) + "...";
-                            }
-                            else
-                            {
-                                nuovo.Titolo = singolo.Titolo.Substring(0, singolo.Titolo.Length);
-                            } 
-                            nuovo.DataRichiesta = singolo.DataRichiesta;
-                            nuovo.PreventivoGGUU = singolo.PreventivoGGUU;
-                            nuovo.InGaranzia = singolo.InGaranzia;
-                            nuovo.Terminato = singolo.Terminato;
-                            nuovo.Descrizione = singolo.Descrizione;
-                            nuovo.Progetto_FK = singolo.Progetto_FK;
-                            nuovo.DescrizioneProgetto = singolo.Progetti.Descrizione;
-                            nuovo.IsUtilizzato = IsTaskUtilizzato(singolo.Id, context);
-                            nuovo.IdContratto = singolo.IdContratto;
-                            nuovo.FiglioDi = singolo.FiglioDi;
+                                Id = singolo.Id,
+                                NumeroTask = singolo.NumeroTask,
+                                Titolo = singolo.Titolo.Length > 90 ? singolo.Titolo.Substring(0, 90) + "..." : singolo.Titolo,
+                                DataRichiesta = singolo.DataRichiesta,
+                                PreventivoGGUU = singolo.PreventivoGGUU,
+                                InGaranzia = singolo.InGaranzia,
+                                Terminato = singolo.Terminato,
+                                Descrizione = singolo.Descrizione,
+                                Progetto_FK = singolo.Progetto_FK,
+                                DescrizioneProgetto = singolo.Progetti.Descrizione,
+                                IsUtilizzato = IsTaskUtilizzato(singolo.Id, context),
+                                IdContratto = singolo.IdContratto,
+                                FiglioDi = singolo.FiglioDi
+                            };
                             if (singolo.FiglioDi != null)
                             {
                                 nuovo.NumeroTaskPadre = context.Tasks.Where(w => w.Id == singolo.FiglioDi).FirstOrDefault().NumeroTask;
@@ -168,7 +167,7 @@ namespace TimeSheetManager.Classi
                         }
                     }
 
-                    return elencoDefinitivo.OrderByDescending(o => o.NumeroTask).ThenByDescending(o => o.DataRichiesta).ToList<Tasks>();
+                    return elencoDefinitivo;
                 }
             }
             catch (Exception ex)
@@ -211,10 +210,12 @@ namespace TimeSheetManager.Classi
                         PreventivoTask nuovo = null;
                         foreach (PreventivoTask singolo in preventivoTmp)
                         {
-                            nuovo = new PreventivoTask();
-                            nuovo.FigureProfessionali_FK = singolo.FigureProfessionali_FK;
-                            nuovo.PreventivoGGUU = Math.Round(singolo.PreventivoGGUU, 2);
-                            nuovo.giornateSpese = Math.Round(GetGiornateSpeseByTaskTipoRisorsa(idTask, singolo.FigureProfessionali_FK, context), 2);
+                            nuovo = new PreventivoTask
+                            {
+                                FigureProfessionali_FK = singolo.FigureProfessionali_FK,
+                                PreventivoGGUU = Math.Round(singolo.PreventivoGGUU, 2),
+                                giornateSpese = Math.Round(GetGiornateSpeseByTaskTipoRisorsa(idTask, singolo.FigureProfessionali_FK, context), 2)
+                            };
                             nuovo.giornateRestanti = Math.Round(nuovo.PreventivoGGUU - nuovo.giornateSpese, 2);
                             elencoDefinitivo.Add(nuovo);
                         }
@@ -254,7 +255,6 @@ namespace TimeSheetManager.Classi
                                select tl;
                 if (giornate != null && giornate.Count() > 0)
                 {
-                    TimeSpan totaleLavorato = new TimeSpan(0, 0, 0);
                     foreach (var singolo in giornate)
                     {
                         valoreLavorato += Convert.ToDecimal(singolo.Lavorato.Value.TotalMinutes) / 480M; // 480 è dato da 60 (minuti in un ora) * 8 (ore lavorative in un giorno)

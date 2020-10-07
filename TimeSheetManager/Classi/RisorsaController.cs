@@ -14,13 +14,8 @@ namespace TimeSheetManager.Classi
             {
                 using (var context = new TimesheetEntities())
                 {
-                    var r = context.Risorse.Where(w => w.Account == login);
-                    if (r != null && r.Count() > 0)
-                    {
-                        return r.First();
-                    } 
+                    return context.Risorse.Where(w => w.Account == login).FirstOrDefault();
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -58,9 +53,8 @@ namespace TimeSheetManager.Classi
                         {
                             risorsaSingola.azienda = risorsaSingola.Aziende.Descrizione;
                         }
-                        return risorseTmp.ToList();
                     }
-                    return null;
+                    return risorseTmp?.ToList();
                 }
             }
             catch (Exception ex)
@@ -75,13 +69,8 @@ namespace TimeSheetManager.Classi
             {
                 using (var context = new TimesheetEntities())
                 {
-                    var r = context.Risorse.Where(w => w.Codice == codice);
-                    if (r != null && r.Count() > 0)
-                    {
-                        return r.First();
-                    }
+                    return context.Risorse.Where(w => w.Codice == codice)?.FirstOrDefault();
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -111,13 +100,16 @@ namespace TimeSheetManager.Classi
             {
                 using (var context = new TimesheetEntities())
                 {
-                    Risorse risorsaDaModificare = context.Risorse.Where(w => w.Codice == risorsa.Codice).First();
-                    risorsaDaModificare.Account = risorsa.Account;
-                    risorsaDaModificare.Aziende_FK = risorsa.Aziende_FK;
-                    risorsaDaModificare.CostoGiornaliero = risorsa.CostoGiornaliero;
-                    risorsaDaModificare.IsAdmin = risorsa.IsAdmin;
-                    risorsaDaModificare.Nominativo = risorsa.Nominativo;
-                    context.SaveChanges();
+                    Risorse risorsaDaModificare = context.Risorse.Where(w => w.Codice == risorsa.Codice)?.FirstOrDefault();
+                    if (!(risorsaDaModificare is null))
+                    {
+                        risorsaDaModificare.Account = risorsa.Account;
+                        risorsaDaModificare.Aziende_FK = risorsa.Aziende_FK;
+                        risorsaDaModificare.CostoGiornaliero = risorsa.CostoGiornaliero;
+                        risorsaDaModificare.IsAdmin = risorsa.IsAdmin;
+                        risorsaDaModificare.Nominativo = risorsa.Nominativo;
+                        context.SaveChanges();
+                    }
                 }
             }
             catch (Exception ex)
@@ -132,9 +124,12 @@ namespace TimeSheetManager.Classi
             {
                 using (var context = new TimesheetEntities())
                 {
-                    Risorse risorsaDaEliminare = context.Risorse.Where(w => w.Codice == codice).First();
-                    context.Risorse.DeleteObject(risorsaDaEliminare);
-                    context.SaveChanges();
+                    Risorse risorsaDaEliminare = context.Risorse.Where(w => w.Codice == codice)?.FirstOrDefault();
+                    if (!(risorsaDaEliminare is null))
+                    {
+                        context.Risorse.DeleteObject(risorsaDaEliminare);
+                        context.SaveChanges();
+                    }
                 }
             }
             catch (Exception ex)

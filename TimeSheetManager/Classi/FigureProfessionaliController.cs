@@ -34,9 +34,7 @@ namespace TimeSheetManager.Classi
                                     )
                                     orderby f1.Descrizione ascending
                                     select f1;
-                    if (figureTmp != null && figureTmp.Count() > 0)
-                        return figureTmp.ToList();
-                    return null;
+                    return figureTmp?.ToList();
                 }
             }
             catch (Exception ex)
@@ -56,11 +54,7 @@ namespace TimeSheetManager.Classi
                                     where r1.CodiceRisorsa_FK == codiceRisorsa
                                     orderby f1.Descrizione ascending
                                     select f1;
-                    if (figureTmp != null && figureTmp.Count() > 0)
-                    {
-                        return figureTmp.ToList();
-                    }
-                    return null;
+                    return figureTmp?.ToList();
                 }
             }
             catch (Exception ex)
@@ -81,11 +75,7 @@ namespace TimeSheetManager.Classi
                                           t1.Data.Year == anno
                                     orderby f1.Descrizione ascending
                                     select f1;
-                    if (figureTmp != null && figureTmp.Count() > 0)
-                    {
-                        return figureTmp.Distinct().ToList();
-                    }
-                    return null;
+                    return figureTmp?.Distinct().ToList();
                 }
             }
             catch (Exception ex)
@@ -104,7 +94,7 @@ namespace TimeSheetManager.Classi
                                     join r1 in context.R_Risorse_FigureProfessionali on f1.Codice equals r1.CodiceFiguraProfessionale_FK
                                     where r1.CodiceRisorsa_FK == codiceRisorsa && r1.RuoloDefault == true
                                     select r1.CodiceFiguraProfessionale_FK;
-                    return figureTmp.FirstOrDefault();
+                    return figureTmp?.FirstOrDefault();
                 }
             }
             catch (Exception ex)

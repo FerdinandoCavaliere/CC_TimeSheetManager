@@ -22,11 +22,7 @@ namespace TimeSheetManager.Classi
                         datDa,
                         dataA,
                         2);
-                    if (elenco != null)
-                    {
-                        return elenco.ToList();
-                    }
-                    return null;
+                    return elenco?.ToList();
                 }
             }
             catch (Exception ex)
@@ -46,9 +42,7 @@ namespace TimeSheetManager.Classi
                                           c.Contratto_FK == idContratto &&
                                           c.Mese == mese
                                           select c;
-                    if (datiConsolidati != null && datiConsolidati.Count() > 0)
-                        return datiConsolidati.ToList();
-                    return null;
+                    return datiConsolidati?.ToList();
                 }
             }
             catch (Exception ex)
@@ -110,11 +104,7 @@ namespace TimeSheetManager.Classi
                         idContratto,
                         annoContratto,
                         semestre);
-                    if (elenco != null)
-                    {
-                        return elenco.ToList();
-                    }
-                    return null;
+                    return elenco?.ToList();
                 }
             }
             catch (Exception ex)
@@ -134,9 +124,7 @@ namespace TimeSheetManager.Classi
                                           c.Contratto_FK == idContratto &&
                                           c.Semestre == semestre
                                           select c;
-                    if (datiConsolidati != null && datiConsolidati.Count() > 0)
-                        return datiConsolidati.ToList();
-                    return null;
+                    return datiConsolidati?.ToList();
                 }
             }
             catch (Exception ex)

@@ -52,9 +52,8 @@ namespace TimeSheetManager.Classi
                         {
                             CompletaDatiTimesheet(singolo);
                         }
-                        return timeSheetTmp.ToList();
                     }
-                    return null;
+                    return timeSheetTmp?.ToList();
                 }
             }
             catch (Exception ex)
@@ -152,10 +151,8 @@ namespace TimeSheetManager.Classi
                         {
                             CompletaDatiTimesheet(singolo);
                         }
-
-                        return timeSheetTmp.ToList();
                     }
-                    return null;
+                    return timeSheetTmp?.ToList();
                 }
             }
             catch (Exception ex)
@@ -190,10 +187,8 @@ namespace TimeSheetManager.Classi
                         {
                             CompletaDatiTimesheet(singolo);
                         }
-
-                        return timeSheetTmp.ToList();
                     }
-                    return null;
+                    return timeSheetTmp?.ToList();
                 }
             }
             catch (Exception ex)
@@ -201,7 +196,6 @@ namespace TimeSheetManager.Classi
                 throw ex;
             }
         }
-
 
         public TimeSheet GetSingolaGiornata(Int32 id)
         {
@@ -348,9 +342,7 @@ namespace TimeSheetManager.Classi
         {
             using (var context = new TimesheetEntities())
             {
-                var anno = (from t in context.TimeSheet
-                            select t.Data.Month).Min();
-                return anno;
+                return context.TimeSheet?.Select(t => t.Data).Min().Year ?? 0;
             }
         }
 
