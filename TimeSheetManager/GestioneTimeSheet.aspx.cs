@@ -302,9 +302,10 @@ namespace TimeSheetManager
         private void SettaTotale(List<TimeSheet> elenco)
         {
             CalcolaSommaOre(elenco, out TimeSpan oreRendicontateTotali, out TimeSpan oreLavorateTotali, out TimeSpan differenza);
-            LblOreRendicontateTotali.Text = Math.Truncate(oreRendicontateTotali.TotalHours).ToString() + ":" + oreRendicontateTotali.Minutes.ToString("D2");
-            LblOreLavorateTotali.Text = Math.Truncate(oreLavorateTotali.TotalHours).ToString() + ":" + oreLavorateTotali.Minutes.ToString("D2");
-            LblDifferenza.Text = differenza.ToString().Substring(0, differenza.ToString().Length - 3);
+            LblOreRendicontateTotali.Text = $"{Math.Truncate(oreRendicontateTotali.TotalHours)}:{oreRendicontateTotali.Minutes.ToString("D2")}";
+            LblOreLavorateTotali.Text = $"{Math.Truncate(oreLavorateTotali.TotalHours)}:{oreLavorateTotali.Minutes.ToString("D2")}";
+            LblDifferenza.Text = $"{Math.Truncate(differenza.TotalHours)}:{differenza.Minutes.ToString("D2")}";
+
             if (differenza.TotalMinutes > 0)
             {
                 LblDifferenza.ForeColor = System.Drawing.Color.Green;
@@ -401,7 +402,7 @@ namespace TimeSheetManager
                 }
                 else
                 {
-                    return true; // E' un intero
+                    return true;
                 }
             }
 
