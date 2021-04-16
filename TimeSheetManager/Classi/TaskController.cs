@@ -121,7 +121,6 @@ namespace TimeSheetManager.Classi
                                         (FiglioDi == null || t1.FiglioDi == FiglioDi) &&
                                         p2.Valido == true
                                     )
-                                    orderby t1.NumeroTask descending, t1.DataRichiesta descending
                                     select new {
                                         t1.Id,
                                         IdContratto = c1.Id,
@@ -167,7 +166,7 @@ namespace TimeSheetManager.Classi
                         }
                     }
 
-                    return elencoDefinitivo;
+                    return elencoDefinitivo?.OrderByDescending(o => o.NumeroTask).ThenByDescending(o => o.DataRichiesta).ToList();
                 }
             }
             catch (Exception ex)
