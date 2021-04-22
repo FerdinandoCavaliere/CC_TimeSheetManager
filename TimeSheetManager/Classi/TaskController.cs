@@ -93,80 +93,123 @@ namespace TimeSheetManager.Classi
             decimal? totaleGiornate,
             string descrizione,
             Boolean? terminato,
-            Int32? FiglioDi)
+            Int32? figlioDi_Fk)
         {
             try
             {
-                List<Tasks> elencoDefinitivo = new List<Tasks>();
-
                 using (var context = new TimesheetEntities())
                 {
-                    var tasksTmp =  from t1 in context.Tasks
-                                    join p2 in context.Progetti on t1.Progetto_FK equals p2.Nome
-                                    join p1 in context.PreventivoTask on t1.Id equals p1.Task_FK
-                                    join f1 in context.FigureProfessionali on p1.FigureProfessionali_FK equals f1.Codice
-                                    join c1 in context.Contratti on f1.Contratti_Fk equals c1.Id
-                                    where
-                                    (
-                                        (id == null || t1.Id == id) &&
-                                        (contratto_FK == null || c1.Id == contratto_FK) &&
-                                        (progetto_Fk == string.Empty || t1.Progetto_FK == progetto_Fk) &&
-                                        (dataRichiesta == null || t1.DataRichiesta == dataRichiesta) &&
-                                        (inGaranzia == null || t1.InGaranzia == inGaranzia) &&
-                                        (numeroTask == null || t1.NumeroTask == numeroTask) &&
-                                        (titolo == string.Empty || t1.Titolo.Contains(titolo)) &&
-                                        (totaleGiornate == null || t1.PreventivoGGUU == totaleGiornate) &&
-                                        (descrizione == string.Empty || t1.Descrizione.Contains(descrizione)) &&
-                                        (terminato == null || t1.Terminato == terminato) &&
-                                        (FiglioDi == null || t1.FiglioDi == FiglioDi) &&
-                                        p2.Valido == true
-                                    )
-                                    select new {
-                                        t1.Id,
-                                        IdContratto = c1.Id,
-                                        t1.Progetto_FK,
-                                        t1.DataRichiesta,
-                                        t1.InGaranzia,
-                                        t1.NumeroTask,
-                                        t1.Titolo,
-                                        t1.PreventivoGGUU,
-                                        t1.Descrizione,
-                                        t1.Terminato,
-                                        t1.Progetti,
-                                        t1.FiglioDi,
-                                        t1.PreventivoInviato
-                                    };
-                    if (tasksTmp != null && tasksTmp.Count() > 0)
+                    // --> CF 22/04/2021 Utilizzata una sp invece del linq avendo dovuto trasformare le join in left join
+
+                    var tasks = context.uspGetTasks(
+                        id,
+                        contratto_FK,
+                        progetto_Fk,
+                        dataRichiesta,
+                        inGaranzia,
+                        numeroTask,
+                        titolo,
+                        totaleGiornate,
+                        descrizione,
+                        terminato,
+                        figlioDi_Fk);
+
+                    if (tasks != null)
                     {
-                        Tasks nuovo = null;
-                        foreach (var singolo in tasksTmp.Distinct())
+                        return tasks.Select(s => new Tasks
                         {
-                            nuovo = new Tasks
-                            {
-                                Id = singolo.Id,
-                                NumeroTask = singolo.NumeroTask,
-                                Titolo = singolo.Titolo.Length > 90 ? singolo.Titolo.Substring(0, 90) + "..." : singolo.Titolo,
-                                DataRichiesta = singolo.DataRichiesta,
-                                PreventivoGGUU = singolo.PreventivoGGUU,
-                                InGaranzia = singolo.InGaranzia,
-                                Terminato = singolo.Terminato,
-                                Descrizione = singolo.Descrizione,
-                                Progetto_FK = singolo.Progetto_FK,
-                                DescrizioneProgetto = singolo.Progetti.Descrizione,
-                                IsUtilizzato = IsTaskUtilizzato(singolo.Id, context),
-                                IdContratto = singolo.IdContratto,
-                                FiglioDi = singolo.FiglioDi
-                            };
-                            if (singolo.FiglioDi != null)
-                            {
-                                nuovo.NumeroTaskPadre = context.Tasks.Where(w => w.Id == singolo.FiglioDi).FirstOrDefault().NumeroTask;
-                            }
-                            nuovo.PreventivoInviato = singolo.PreventivoInviato;
-                            elencoDefinitivo.Add(nuovo);
-                        }
+                            Id = s.Id,
+                            NumeroTask = s.NumeroTask,
+                            Titolo = s.Titolo,
+                            DataRichiesta = s.DataRichiesta,
+                            PreventivoGGUU = s.PreventivoGGUU,
+                            InGaranzia = s.InGaranzia,
+                            Terminato = s.Terminato,
+                            Descrizione = s.Descrizione,
+                            Progetto_FK = s.Progetto_FK,
+                            DescrizioneProgetto = s.DescrizioneProgetto,
+                            IsUtilizzato = IsTaskUtilizzato(s.Id, context),
+                            IdContratto = s.IdContratto ?? 0,
+                            FiglioDi = s.FiglioDi,
+                            NumeroTaskPadre = s.NumeroTaskPadre ?? 0
+                        }).ToList();
+                    }
+                    else
+                    {
+                        return null;
                     }
 
-                    return elencoDefinitivo?.OrderByDescending(o => o.NumeroTask).ThenByDescending(o => o.DataRichiesta).ToList();
+                    // <--
+
+                    //List<Tasks> elencoDefinitivo = new List<Tasks>();
+
+                    //var tasksTmp = from t1 in context.Tasks
+                    //               join p2 in context.Progetti on t1.Progetto_FK equals p2.Nome
+                    //               join p1 in context.PreventivoTask on t1.Id equals p1.Task_FK
+                    //               join f1 in context.FigureProfessionali on p1.FigureProfessionali_FK equals f1.Codice
+                    //               join c1 in context.Contratti on f1.Contratti_Fk equals c1.Id
+                    //               where
+                    //               (
+                    //                   (id == null || t1.Id == id) &&
+                    //                   (contratto_FK == null || c1.Id == contratto_FK) &&
+                    //                   (progetto_Fk == string.Empty || t1.Progetto_FK == progetto_Fk) &&
+                    //                   (dataRichiesta == null || t1.DataRichiesta == dataRichiesta) &&
+                    //                   (inGaranzia == null || t1.InGaranzia == inGaranzia) &&
+                    //                   (numeroTask == null || t1.NumeroTask == numeroTask) &&
+                    //                   (titolo == string.Empty || t1.Titolo.Contains(titolo)) &&
+                    //                   (totaleGiornate == null || t1.PreventivoGGUU == totaleGiornate) &&
+                    //                   (descrizione == string.Empty || t1.Descrizione.Contains(descrizione)) &&
+                    //                   (terminato == null || t1.Terminato == terminato) &&
+                    //                   (figlioDi_Fk == null || t1.FiglioDi == figlioDi_Fk) &&
+                    //                   p2.Valido == true
+                    //               )
+                    //               select new
+                    //               {
+                    //                   t1.Id,
+                    //                   IdContratto = c1.Id,
+                    //                   t1.Progetto_FK,
+                    //                   t1.DataRichiesta,
+                    //                   t1.InGaranzia,
+                    //                   t1.NumeroTask,
+                    //                   t1.Titolo,
+                    //                   t1.PreventivoGGUU,
+                    //                   t1.Descrizione,
+                    //                   t1.Terminato,
+                    //                   t1.Progetti,
+                    //                   t1.FiglioDi,
+                    //                   t1.PreventivoInviato
+                    //               };
+                    //if (tasksTmp != null && tasksTmp.Count() > 0)
+                    //{
+                    //    Tasks nuovo = null;
+                    //    foreach (var singolo in tasksTmp.Distinct())
+                    //    {
+                    //        nuovo = new Tasks
+                    //        {
+                    //            Id = singolo.Id,
+                    //            NumeroTask = singolo.NumeroTask,
+                    //            Titolo = singolo.Titolo.Length > 90 ? singolo.Titolo.Substring(0, 90) + "..." : singolo.Titolo,
+                    //            DataRichiesta = singolo.DataRichiesta,
+                    //            PreventivoGGUU = singolo.PreventivoGGUU,
+                    //            InGaranzia = singolo.InGaranzia,
+                    //            Terminato = singolo.Terminato,
+                    //            Descrizione = singolo.Descrizione,
+                    //            Progetto_FK = singolo.Progetto_FK,
+                    //            DescrizioneProgetto = singolo.Progetti.Descrizione,
+                    //            IsUtilizzato = IsTaskUtilizzato(singolo.Id, context),
+                    //            IdContratto = singolo.IdContratto,
+                    //            FiglioDi = singolo.FiglioDi
+                    //        };
+                    //        if (singolo.FiglioDi != null)
+                    //        {
+                    //            nuovo.NumeroTaskPadre = context.Tasks.Where(w => w.Id == singolo.FiglioDi).FirstOrDefault().NumeroTask;
+                    //        }
+                    //        nuovo.PreventivoInviato = singolo.PreventivoInviato;
+                    //        elencoDefinitivo.Add(nuovo);
+                    //    }
+                    //}
+
+                    //return elencoDefinitivo?.OrderByDescending(o => o.NumeroTask).ThenByDescending(o => o.DataRichiesta).ToList();
                 }
             }
             catch (Exception ex)

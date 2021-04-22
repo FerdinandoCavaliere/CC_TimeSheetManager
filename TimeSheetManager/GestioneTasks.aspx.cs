@@ -138,23 +138,25 @@ namespace TimeSheetManager
         {
             try
             {
-                // Verifico che la ricerca non può essere effettuata dai campi della listview
-                Boolean campoValorizzato = false;
-                foreach (ListViewItem singolo in ListViewGiorniPerFigura.Items)
-                {
-                    TextBox txtTmp = singolo.FindControl("TxtGiorniRisorsa") as TextBox;
-                    campoValorizzato = !string.IsNullOrEmpty(txtTmp.Text);
-                }
+                //// Verifico che la ricerca non può essere effettuata dai campi della listview
+                //Boolean campoValorizzato = false;
+                //foreach (ListViewItem singolo in ListViewGiorniPerFigura.Items)
+                //{
+                //    TextBox txtTmp = singolo.FindControl("TxtGiorniRisorsa") as TextBox;
+                //    campoValorizzato = !string.IsNullOrEmpty(txtTmp.Text);
+                //}
 
-                if (campoValorizzato)
-                {
-                    LblMessaggio.Text = MessaggiAlert.IMPOSSIBILE_CERCARE_SE_CAMPI_RISORSA_E_GIORNATE_NON_VALORIZZATI;
-                    Messaggio_ModalPopupExtender.Show();
-                }
-                else
-                {
-                    Cerca();
-                }  
+                //if (campoValorizzato)
+                //{
+                //    LblMessaggio.Text = MessaggiAlert.IMPOSSIBILE_CERCARE_SE_CAMPI_RISORSA_E_GIORNATE_NON_VALORIZZATI;
+                //    Messaggio_ModalPopupExtender.Show();
+                //}
+                //else
+                //{
+                //    Cerca();
+                //}  
+
+                Cerca();
             }
             catch (Exception ex)
             {
@@ -223,55 +225,42 @@ namespace TimeSheetManager
 
         protected void BtnNuovoTask_Click(object sender, EventArgs e)
         {
+            string errore = string.Empty;
+
             try
             {
-                string errore = EseguiVerifiche();
-                if (string.IsNullOrEmpty(errore))
+                // verifico presenza campi obbligatori e validità numeri delle giornate per figura se presenti
+                errore = EseguiVerificheCampiObbligatoriEValidi();
+                if (!string.IsNullOrWhiteSpace(errore))
                 {
-                    // Creo il task
-                    Tasks nuovo = new Tasks
+                    LblMessaggio.Text = errore;
+                    Messaggio_ModalPopupExtender.Show();
+                }
+                else
+                {
+                    errore = EseguiVerificheCampiFacoltativi();
+                    if (!string.IsNullOrWhiteSpace(errore))
                     {
-                        NumeroTask = Convert.ToInt32(TxtNumeroTask.Text),
-                        Progetto_FK = DdlProgetti.SelectedValue,
-                        Titolo = TxtTitolo.Text,
-                        DataRichiesta = Convert.ToDateTime(TxtDataRichiesta.Text),
-                        PreventivoGGUU = Convert.ToDecimal(TxtNumeroTotaleGiornate.Text.Replace(".", ",")),
-                        InGaranzia = ChkInGaranzia.Checked,
-                        Descrizione = TxtDescrizione.Text
-                    };
-                    if (DdlTaskPadre.SelectedIndex > 0)
-                        nuovo.FiglioDi = Convert.ToInt32(DdlTaskPadre.SelectedValue);
-
-                    // Creo la lista delle giornate per risorsa
-                    List<PreventivoTask> elencoGiornatePerRisorsa = new List<PreventivoTask>();
-                    PreventivoTask nuovoP = null;
-                    foreach (ListViewItem singolo in ListViewGiorniPerFigura.Items)
-                    {
-                        TextBox txtTmp = singolo.FindControl("TxtGiorniRisorsa") as TextBox;
-                        if (!string.IsNullOrEmpty(txtTmp.Text))
-                        {
-                            Label lblTmp = singolo.FindControl("LblCodiceFigura") as Label;
-                            nuovoP = new PreventivoTask
-                            {
-                                FigureProfessionali_FK = lblTmp.Text,
-                                PreventivoGGUU = Convert.ToDecimal(txtTmp.Text.Replace(".", ","))
-                            };
-                            elencoGiornatePerRisorsa.Add(nuovoP);
-                        }
-                    }
-
-                    if (ViewState["IDSELEZIONATO"] == null)
-                    {
-                        tc.InsertTask(nuovo, elencoGiornatePerRisorsa);
+                        LblMessaggioConferma.Text = errore;
+                        Conferma_ModalPopupExtender.Show();
                     }
                     else
                     {
-                        nuovo.Id = Convert.ToInt32(ViewState["IDSELEZIONATO"]);
-                        tc.UpdateTask(nuovo, elencoGiornatePerRisorsa);
+                        EseguiInserimento();
                     }
+                }
+               
 
-                    Cerca();
-                    LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
+
+
+
+
+
+
+                
+                if (string.IsNullOrEmpty(errore))
+                {
+                    
                 }
                 else
                 {
@@ -287,9 +276,21 @@ namespace TimeSheetManager
             }
         }
 
-        private string EseguiVerifiche()
+        protected void BtnConfermaSalvataggio_Click(object sender, EventArgs e)
         {
-            string errore = string.Empty;
+            try
+            {
+                EseguiInserimento();
+            }
+            catch (Exception ex)
+            {
+                LblMessaggio.Text = "Eccezione: " + ex.Message;
+                Messaggio_ModalPopupExtender.Show();
+            }
+        }
+
+        private string EseguiVerificheCampiObbligatoriEValidi()
+        {
             bool esito = true;
             try
             {
@@ -311,7 +312,7 @@ namespace TimeSheetManager
                     return MessaggiAlert.INSERIRE_NUMERO_GIORNATE_TOTALE_TASK_VALIDO;
                 }
 
-                decimal totaleGiornateCalcolato = decimal.Zero;
+                bool AlmenoUnaFiguraPresente = false;
                 foreach (ListViewItem singolo in ListViewGiorniPerFigura.Items)
                 {
                     if (esito)
@@ -320,14 +321,44 @@ namespace TimeSheetManager
                         if (!string.IsNullOrEmpty(txtTmp.Text))
                         {
                             esito = decimal.TryParse(txtTmp.Text.Replace(".", ","), out decimal giornateFigura);
-                            totaleGiornateCalcolato += giornateFigura;
+                            if (esito)
+                            {
+                                AlmenoUnaFiguraPresente = true;
+                            }
                         }
                     }
                 }
-
                 if (!esito)
                 {
                     return MessaggiAlert.INSERIRE_NUMERO_GIORNATE_PER_FIGURA;
+                }
+                else if(!AlmenoUnaFiguraPresente)
+                {
+                    return MessaggiAlert.INSERIRE_ALMENO_UN_NUMERO_GIORNATE_PER_FIGURA;
+                }
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string EseguiVerificheCampiFacoltativi()
+        {
+            try
+            {
+                decimal totaleGiornate = decimal.Parse((TxtNumeroTotaleGiornate.Text.Replace(".", ",")));
+                decimal totaleGiornateCalcolato = decimal.Zero;
+
+                foreach (ListViewItem singolo in ListViewGiorniPerFigura.Items)
+                {
+                    TextBox txtTmp = singolo.FindControl("TxtGiorniRisorsa") as TextBox;
+                    if (!string.IsNullOrEmpty(txtTmp.Text))
+                    {
+                        totaleGiornateCalcolato += decimal.Parse(txtTmp.Text.Replace(".", ","));
+                    }
                 }
 
                 if (totaleGiornate != totaleGiornateCalcolato)
@@ -336,6 +367,61 @@ namespace TimeSheetManager
                 }
 
                 return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void EseguiInserimento()
+        {
+            try
+            {
+                // Creo il task
+                Tasks nuovo = new Tasks
+                {
+                    NumeroTask = Convert.ToInt32(TxtNumeroTask.Text),
+                    Progetto_FK = DdlProgetti.SelectedValue,
+                    Titolo = TxtTitolo.Text,
+                    DataRichiesta = Convert.ToDateTime(TxtDataRichiesta.Text),
+                    PreventivoGGUU = Convert.ToDecimal(TxtNumeroTotaleGiornate.Text.Replace(".", ",")),
+                    InGaranzia = ChkInGaranzia.Checked,
+                    Descrizione = TxtDescrizione.Text
+                };
+                if (DdlTaskPadre.SelectedIndex > 0)
+                    nuovo.FiglioDi = Convert.ToInt32(DdlTaskPadre.SelectedValue);
+
+                // Creo la lista delle giornate per risorsa
+                List<PreventivoTask> elencoGiornatePerRisorsa = new List<PreventivoTask>();
+                PreventivoTask nuovoP = null;
+                foreach (ListViewItem singolo in ListViewGiorniPerFigura.Items)
+                {
+                    TextBox txtTmp = singolo.FindControl("TxtGiorniRisorsa") as TextBox;
+                    if (!string.IsNullOrEmpty(txtTmp.Text))
+                    {
+                        Label lblTmp = singolo.FindControl("LblCodiceFigura") as Label;
+                        nuovoP = new PreventivoTask
+                        {
+                            FigureProfessionali_FK = lblTmp.Text,
+                            PreventivoGGUU = Convert.ToDecimal(txtTmp.Text.Replace(".", ","))
+                        };
+                        elencoGiornatePerRisorsa.Add(nuovoP);
+                    }
+                }
+
+                if (ViewState["IDSELEZIONATO"] == null)
+                {
+                    tc.InsertTask(nuovo, elencoGiornatePerRisorsa);
+                }
+                else
+                {
+                    nuovo.Id = Convert.ToInt32(ViewState["IDSELEZIONATO"]);
+                    tc.UpdateTask(nuovo, elencoGiornatePerRisorsa);
+                }
+
+                Cerca();
+                LblMessaggio.Text = MessaggiAlert.OPERAZIONE_SUCCESSO;
             }
             catch (Exception ex)
             {

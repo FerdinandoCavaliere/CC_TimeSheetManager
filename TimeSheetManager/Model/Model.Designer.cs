@@ -486,6 +486,135 @@ namespace TimeSheetManager.Model
     
             return base.ExecuteFunction<uspGetRiepilogoSemestre_Result>("uspGetRiepilogoSemestre", idContrattoParameter, annoParameter, semestreParameter);
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="id">No Metadata Documentation available.</param>
+        /// <param name="contratto_FK">No Metadata Documentation available.</param>
+        /// <param name="progetto_Fk">No Metadata Documentation available.</param>
+        /// <param name="dataRichiesta">No Metadata Documentation available.</param>
+        /// <param name="inGaranzia">No Metadata Documentation available.</param>
+        /// <param name="numeroTask">No Metadata Documentation available.</param>
+        /// <param name="titolo">No Metadata Documentation available.</param>
+        /// <param name="totaleGiornate">No Metadata Documentation available.</param>
+        /// <param name="descrizione">No Metadata Documentation available.</param>
+        /// <param name="terminato">No Metadata Documentation available.</param>
+        /// <param name="figlioDi_Fk">No Metadata Documentation available.</param>
+        public ObjectResult<uspGetTasks_Result> uspGetTasks(Nullable<global::System.Int32> id, Nullable<global::System.Int32> contratto_FK, global::System.String progetto_Fk, Nullable<global::System.DateTime> dataRichiesta, Nullable<global::System.Boolean> inGaranzia, Nullable<global::System.Int32> numeroTask, global::System.String titolo, Nullable<global::System.Decimal> totaleGiornate, global::System.String descrizione, Nullable<global::System.Boolean> terminato, Nullable<global::System.Int32> figlioDi_Fk)
+        {
+            ObjectParameter idParameter;
+            if (id.HasValue)
+            {
+                idParameter = new ObjectParameter("id", id);
+            }
+            else
+            {
+                idParameter = new ObjectParameter("id", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter contratto_FKParameter;
+            if (contratto_FK.HasValue)
+            {
+                contratto_FKParameter = new ObjectParameter("contratto_FK", contratto_FK);
+            }
+            else
+            {
+                contratto_FKParameter = new ObjectParameter("contratto_FK", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter progetto_FkParameter;
+            if (progetto_Fk != null)
+            {
+                progetto_FkParameter = new ObjectParameter("progetto_Fk", progetto_Fk);
+            }
+            else
+            {
+                progetto_FkParameter = new ObjectParameter("progetto_Fk", typeof(global::System.String));
+            }
+    
+            ObjectParameter dataRichiestaParameter;
+            if (dataRichiesta.HasValue)
+            {
+                dataRichiestaParameter = new ObjectParameter("dataRichiesta", dataRichiesta);
+            }
+            else
+            {
+                dataRichiestaParameter = new ObjectParameter("dataRichiesta", typeof(global::System.DateTime));
+            }
+    
+            ObjectParameter inGaranziaParameter;
+            if (inGaranzia.HasValue)
+            {
+                inGaranziaParameter = new ObjectParameter("inGaranzia", inGaranzia);
+            }
+            else
+            {
+                inGaranziaParameter = new ObjectParameter("inGaranzia", typeof(global::System.Boolean));
+            }
+    
+            ObjectParameter numeroTaskParameter;
+            if (numeroTask.HasValue)
+            {
+                numeroTaskParameter = new ObjectParameter("numeroTask", numeroTask);
+            }
+            else
+            {
+                numeroTaskParameter = new ObjectParameter("numeroTask", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter titoloParameter;
+            if (titolo != null)
+            {
+                titoloParameter = new ObjectParameter("titolo", titolo);
+            }
+            else
+            {
+                titoloParameter = new ObjectParameter("titolo", typeof(global::System.String));
+            }
+    
+            ObjectParameter totaleGiornateParameter;
+            if (totaleGiornate.HasValue)
+            {
+                totaleGiornateParameter = new ObjectParameter("totaleGiornate", totaleGiornate);
+            }
+            else
+            {
+                totaleGiornateParameter = new ObjectParameter("totaleGiornate", typeof(global::System.Decimal));
+            }
+    
+            ObjectParameter descrizioneParameter;
+            if (descrizione != null)
+            {
+                descrizioneParameter = new ObjectParameter("descrizione", descrizione);
+            }
+            else
+            {
+                descrizioneParameter = new ObjectParameter("descrizione", typeof(global::System.String));
+            }
+    
+            ObjectParameter terminatoParameter;
+            if (terminato.HasValue)
+            {
+                terminatoParameter = new ObjectParameter("terminato", terminato);
+            }
+            else
+            {
+                terminatoParameter = new ObjectParameter("terminato", typeof(global::System.Boolean));
+            }
+    
+            ObjectParameter figlioDi_FkParameter;
+            if (figlioDi_Fk.HasValue)
+            {
+                figlioDi_FkParameter = new ObjectParameter("figlioDi_Fk", figlioDi_Fk);
+            }
+            else
+            {
+                figlioDi_FkParameter = new ObjectParameter("figlioDi_Fk", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction<uspGetTasks_Result>("uspGetTasks", idParameter, contratto_FKParameter, progetto_FkParameter, dataRichiestaParameter, inGaranziaParameter, numeroTaskParameter, titoloParameter, totaleGiornateParameter, descrizioneParameter, terminatoParameter, figlioDi_FkParameter);
+        }
 
         #endregion
 
@@ -4880,6 +5009,385 @@ namespace TimeSheetManager.Model
         private Nullable<global::System.Double> _Importo;
         partial void OnImportoChanging(Nullable<global::System.Double> value);
         partial void OnImportoChanged();
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmComplexTypeAttribute(NamespaceName="TimesheetModel", Name="uspGetTasks_Result")]
+    [DataContractAttribute(IsReference=true)]
+    [Serializable()]
+    public partial class uspGetTasks_Result : ComplexObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new uspGetTasks_Result object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="dataRichiesta">Initial value of the DataRichiesta property.</param>
+        /// <param name="inGaranzia">Initial value of the InGaranzia property.</param>
+        /// <param name="numeroTask">Initial value of the NumeroTask property.</param>
+        /// <param name="preventivoGGUU">Initial value of the PreventivoGGUU property.</param>
+        /// <param name="terminato">Initial value of the Terminato property.</param>
+        /// <param name="progetto_FK">Initial value of the Progetto_FK property.</param>
+        /// <param name="preventivoInviato">Initial value of the PreventivoInviato property.</param>
+        public static uspGetTasks_Result CreateuspGetTasks_Result(global::System.Int32 id, global::System.DateTime dataRichiesta, global::System.Boolean inGaranzia, global::System.Int32 numeroTask, global::System.Decimal preventivoGGUU, global::System.Boolean terminato, global::System.String progetto_FK, global::System.Boolean preventivoInviato)
+        {
+            uspGetTasks_Result uspGetTasks_Result = new uspGetTasks_Result();
+            uspGetTasks_Result.Id = id;
+            uspGetTasks_Result.DataRichiesta = dataRichiesta;
+            uspGetTasks_Result.InGaranzia = inGaranzia;
+            uspGetTasks_Result.NumeroTask = numeroTask;
+            uspGetTasks_Result.PreventivoGGUU = preventivoGGUU;
+            uspGetTasks_Result.Terminato = terminato;
+            uspGetTasks_Result.Progetto_FK = progetto_FK;
+            uspGetTasks_Result.PreventivoInviato = preventivoInviato;
+            return uspGetTasks_Result;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                OnIdChanging(value);
+                ReportPropertyChanging("Id");
+                _Id = StructuralObject.SetValidValue(value, "Id");
+                ReportPropertyChanged("Id");
+                OnIdChanged();
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> IdContratto
+        {
+            get
+            {
+                return _IdContratto;
+            }
+            set
+            {
+                OnIdContrattoChanging(value);
+                ReportPropertyChanging("IdContratto");
+                _IdContratto = StructuralObject.SetValidValue(value, "IdContratto");
+                ReportPropertyChanged("IdContratto");
+                OnIdContrattoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _IdContratto;
+        partial void OnIdContrattoChanging(Nullable<global::System.Int32> value);
+        partial void OnIdContrattoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime DataRichiesta
+        {
+            get
+            {
+                return _DataRichiesta;
+            }
+            set
+            {
+                OnDataRichiestaChanging(value);
+                ReportPropertyChanging("DataRichiesta");
+                _DataRichiesta = StructuralObject.SetValidValue(value, "DataRichiesta");
+                ReportPropertyChanged("DataRichiesta");
+                OnDataRichiestaChanged();
+            }
+        }
+        private global::System.DateTime _DataRichiesta;
+        partial void OnDataRichiestaChanging(global::System.DateTime value);
+        partial void OnDataRichiestaChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean InGaranzia
+        {
+            get
+            {
+                return _InGaranzia;
+            }
+            set
+            {
+                OnInGaranziaChanging(value);
+                ReportPropertyChanging("InGaranzia");
+                _InGaranzia = StructuralObject.SetValidValue(value, "InGaranzia");
+                ReportPropertyChanged("InGaranzia");
+                OnInGaranziaChanged();
+            }
+        }
+        private global::System.Boolean _InGaranzia;
+        partial void OnInGaranziaChanging(global::System.Boolean value);
+        partial void OnInGaranziaChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 NumeroTask
+        {
+            get
+            {
+                return _NumeroTask;
+            }
+            set
+            {
+                OnNumeroTaskChanging(value);
+                ReportPropertyChanging("NumeroTask");
+                _NumeroTask = StructuralObject.SetValidValue(value, "NumeroTask");
+                ReportPropertyChanged("NumeroTask");
+                OnNumeroTaskChanged();
+            }
+        }
+        private global::System.Int32 _NumeroTask;
+        partial void OnNumeroTaskChanging(global::System.Int32 value);
+        partial void OnNumeroTaskChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Titolo
+        {
+            get
+            {
+                return _Titolo;
+            }
+            set
+            {
+                OnTitoloChanging(value);
+                ReportPropertyChanging("Titolo");
+                _Titolo = StructuralObject.SetValidValue(value, true, "Titolo");
+                ReportPropertyChanged("Titolo");
+                OnTitoloChanged();
+            }
+        }
+        private global::System.String _Titolo;
+        partial void OnTitoloChanging(global::System.String value);
+        partial void OnTitoloChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal PreventivoGGUU
+        {
+            get
+            {
+                return _PreventivoGGUU;
+            }
+            set
+            {
+                OnPreventivoGGUUChanging(value);
+                ReportPropertyChanging("PreventivoGGUU");
+                _PreventivoGGUU = StructuralObject.SetValidValue(value, "PreventivoGGUU");
+                ReportPropertyChanged("PreventivoGGUU");
+                OnPreventivoGGUUChanged();
+            }
+        }
+        private global::System.Decimal _PreventivoGGUU;
+        partial void OnPreventivoGGUUChanging(global::System.Decimal value);
+        partial void OnPreventivoGGUUChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Descrizione
+        {
+            get
+            {
+                return _Descrizione;
+            }
+            set
+            {
+                OnDescrizioneChanging(value);
+                ReportPropertyChanging("Descrizione");
+                _Descrizione = StructuralObject.SetValidValue(value, true, "Descrizione");
+                ReportPropertyChanged("Descrizione");
+                OnDescrizioneChanged();
+            }
+        }
+        private global::System.String _Descrizione;
+        partial void OnDescrizioneChanging(global::System.String value);
+        partial void OnDescrizioneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Terminato
+        {
+            get
+            {
+                return _Terminato;
+            }
+            set
+            {
+                OnTerminatoChanging(value);
+                ReportPropertyChanging("Terminato");
+                _Terminato = StructuralObject.SetValidValue(value, "Terminato");
+                ReportPropertyChanged("Terminato");
+                OnTerminatoChanged();
+            }
+        }
+        private global::System.Boolean _Terminato;
+        partial void OnTerminatoChanging(global::System.Boolean value);
+        partial void OnTerminatoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Progetto_FK
+        {
+            get
+            {
+                return _Progetto_FK;
+            }
+            set
+            {
+                OnProgetto_FKChanging(value);
+                ReportPropertyChanging("Progetto_FK");
+                _Progetto_FK = StructuralObject.SetValidValue(value, false, "Progetto_FK");
+                ReportPropertyChanged("Progetto_FK");
+                OnProgetto_FKChanged();
+            }
+        }
+        private global::System.String _Progetto_FK;
+        partial void OnProgetto_FKChanging(global::System.String value);
+        partial void OnProgetto_FKChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DescrizioneProgetto
+        {
+            get
+            {
+                return _DescrizioneProgetto;
+            }
+            set
+            {
+                OnDescrizioneProgettoChanging(value);
+                ReportPropertyChanging("DescrizioneProgetto");
+                _DescrizioneProgetto = StructuralObject.SetValidValue(value, true, "DescrizioneProgetto");
+                ReportPropertyChanged("DescrizioneProgetto");
+                OnDescrizioneProgettoChanged();
+            }
+        }
+        private global::System.String _DescrizioneProgetto;
+        partial void OnDescrizioneProgettoChanging(global::System.String value);
+        partial void OnDescrizioneProgettoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> FiglioDi
+        {
+            get
+            {
+                return _FiglioDi;
+            }
+            set
+            {
+                OnFiglioDiChanging(value);
+                ReportPropertyChanging("FiglioDi");
+                _FiglioDi = StructuralObject.SetValidValue(value, "FiglioDi");
+                ReportPropertyChanged("FiglioDi");
+                OnFiglioDiChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _FiglioDi;
+        partial void OnFiglioDiChanging(Nullable<global::System.Int32> value);
+        partial void OnFiglioDiChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean PreventivoInviato
+        {
+            get
+            {
+                return _PreventivoInviato;
+            }
+            set
+            {
+                OnPreventivoInviatoChanging(value);
+                ReportPropertyChanging("PreventivoInviato");
+                _PreventivoInviato = StructuralObject.SetValidValue(value, "PreventivoInviato");
+                ReportPropertyChanged("PreventivoInviato");
+                OnPreventivoInviatoChanged();
+            }
+        }
+        private global::System.Boolean _PreventivoInviato;
+        partial void OnPreventivoInviatoChanging(global::System.Boolean value);
+        partial void OnPreventivoInviatoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> NumeroTaskPadre
+        {
+            get
+            {
+                return _NumeroTaskPadre;
+            }
+            set
+            {
+                OnNumeroTaskPadreChanging(value);
+                ReportPropertyChanging("NumeroTaskPadre");
+                _NumeroTaskPadre = StructuralObject.SetValidValue(value, "NumeroTaskPadre");
+                ReportPropertyChanged("NumeroTaskPadre");
+                OnNumeroTaskPadreChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _NumeroTaskPadre;
+        partial void OnNumeroTaskPadreChanging(Nullable<global::System.Int32> value);
+        partial void OnNumeroTaskPadreChanged();
 
         #endregion
 

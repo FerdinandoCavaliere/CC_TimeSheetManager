@@ -335,7 +335,7 @@ warning 6002: The table/view 'Timesheet.dbo.R_Risorse_FigureProfessionali' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TasksLavorati_TasksLavorati">
+        <Association Name="FK_TasksLavorati_TimeSheet">
           <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="1" />
           <End Role="TasksLavorati" Type="Self.TasksLavorati" Multiplicity="*" />
           <ReferentialConstraint>
@@ -385,6 +385,19 @@ warning 6002: The table/view 'Timesheet.dbo.R_Risorse_FigureProfessionali' does 
         </Function>
         <Function Name="uspGetSituazioneSingoloTask" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idTask" Type="int" Mode="In" />
+        </Function>
+        <Function Name="uspGetTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="contratto_FK" Type="int" Mode="In" />
+          <Parameter Name="progetto_Fk" Type="varchar" Mode="In" />
+          <Parameter Name="dataRichiesta" Type="date" Mode="In" />
+          <Parameter Name="inGaranzia" Type="bit" Mode="In" />
+          <Parameter Name="numeroTask" Type="int" Mode="In" />
+          <Parameter Name="titolo" Type="varchar" Mode="In" />
+          <Parameter Name="totaleGiornate" Type="decimal" Mode="In" />
+          <Parameter Name="descrizione" Type="varchar" Mode="In" />
+          <Parameter Name="terminato" Type="bit" Mode="In" />
+          <Parameter Name="figlioDi_Fk" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="TimesheetModelStoreContainer">
           <EntitySet Name="Aziende" EntityType="Self.Aziende" Schema="dbo" store:Type="Tables" />
@@ -461,7 +474,7 @@ FROM [dbo].[R_Risorse_FigureProfessionali] AS [R_Risorse_FigureProfessionali]</D
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="TasksLavorati" EntitySet="TasksLavorati" />
           </AssociationSet>
-          <AssociationSet Name="FK_TasksLavorati_TasksLavorati" Association="Self.FK_TasksLavorati_TasksLavorati">
+          <AssociationSet Name="FK_TasksLavorati_TimeSheet" Association="Self.FK_TasksLavorati_TimeSheet">
             <End Role="TimeSheet" EntitySet="TimeSheet" />
             <End Role="TasksLavorati" EntitySet="TasksLavorati" />
           </AssociationSet>
@@ -570,6 +583,19 @@ FROM [dbo].[R_Risorse_FigureProfessionali] AS [R_Risorse_FigureProfessionali]</D
             <Parameter Name="idContratto" Mode="In" Type="Int32" />
             <Parameter Name="anno" Mode="In" Type="Int32" />
             <Parameter Name="semestre" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="uspGetTasks" ReturnType="Collection(TimesheetModel.uspGetTasks_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="contratto_FK" Mode="In" Type="Int32" />
+            <Parameter Name="progetto_Fk" Mode="In" Type="String" />
+            <Parameter Name="dataRichiesta" Mode="In" Type="DateTime" />
+            <Parameter Name="inGaranzia" Mode="In" Type="Boolean" />
+            <Parameter Name="numeroTask" Mode="In" Type="Int32" />
+            <Parameter Name="titolo" Mode="In" Type="String" />
+            <Parameter Name="totaleGiornate" Mode="In" Type="Decimal" />
+            <Parameter Name="descrizione" Mode="In" Type="String" />
+            <Parameter Name="terminato" Mode="In" Type="Boolean" />
+            <Parameter Name="figlioDi_Fk" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Aziende">
@@ -992,6 +1018,22 @@ FROM [dbo].[R_Risorse_FigureProfessionali] AS [R_Risorse_FigureProfessionali]</D
           <Property Type="Double" Name="ErogatoInGaranzia" Nullable="true" />
           <Property Type="Double" Name="Importo" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="uspGetTasks_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="IdContratto" Nullable="true" />
+          <Property Type="DateTime" Name="DataRichiesta" Nullable="false" />
+          <Property Type="Boolean" Name="InGaranzia" Nullable="false" />
+          <Property Type="Int32" Name="NumeroTask" Nullable="false" />
+          <Property Type="String" Name="Titolo" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="PreventivoGGUU" Nullable="false" Precision="5" Scale="2" />
+          <Property Type="String" Name="Descrizione" Nullable="true" />
+          <Property Type="Boolean" Name="Terminato" Nullable="false" />
+          <Property Type="String" Name="Progetto_FK" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="DescrizioneProgetto" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="FiglioDi" Nullable="true" />
+          <Property Type="Boolean" Name="PreventivoInviato" Nullable="false" />
+          <Property Type="Int32" Name="NumeroTaskPadre" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1194,6 +1236,26 @@ FROM [dbo].[R_Risorse_FigureProfessionali] AS [R_Risorse_FigureProfessionali]</D
                 <ScalarProperty Name="ErogatoInFattura" ColumnName="ErogatoInFattura" />
                 <ScalarProperty Name="ErogatoInGaranzia" ColumnName="ErogatoInGaranzia" />
                 <ScalarProperty Name="Importo" ColumnName="Importo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="uspGetTasks" FunctionName="TimesheetModel.Store.uspGetTasks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TimesheetModel.uspGetTasks_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdContratto" ColumnName="IdContratto" />
+                <ScalarProperty Name="DataRichiesta" ColumnName="DataRichiesta" />
+                <ScalarProperty Name="InGaranzia" ColumnName="InGaranzia" />
+                <ScalarProperty Name="NumeroTask" ColumnName="NumeroTask" />
+                <ScalarProperty Name="Titolo" ColumnName="Titolo" />
+                <ScalarProperty Name="PreventivoGGUU" ColumnName="PreventivoGGUU" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+                <ScalarProperty Name="Terminato" ColumnName="Terminato" />
+                <ScalarProperty Name="Progetto_FK" ColumnName="Progetto_FK" />
+                <ScalarProperty Name="DescrizioneProgetto" ColumnName="DescrizioneProgetto" />
+                <ScalarProperty Name="FiglioDi" ColumnName="FiglioDi" />
+                <ScalarProperty Name="PreventivoInviato" ColumnName="PreventivoInviato" />
+                <ScalarProperty Name="NumeroTaskPadre" ColumnName="NumeroTaskPadre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

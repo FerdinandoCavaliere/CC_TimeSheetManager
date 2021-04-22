@@ -333,4 +333,34 @@
             </div>
         </div>
     </asp:Panel>
+
+    <!-- Inserisco un linkbutton solo x poter collegare il modalpopup dei messaggi -->
+    <asp:HyperLink ID="HyperLink2" runat="server"></asp:HyperLink>
+    <asp:ModalPopupExtender ID="Conferma_ModalPopupExtender" runat="server" Enabled="True"
+        TargetControlID="HyperLink2" PopupControlID="PnlConferma" BackgroundCssClass="ModalSfondo">
+    </asp:ModalPopupExtender>
+    <asp:Panel ID="PnlConferma" runat="server">
+        <div class="ModalContenutoMessaggio">
+            <div id="Div2" style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;">
+                <span class="Titolo">Conferma salvataggio</span>
+                <br />
+                <br />
+                <br />
+                <br />
+                <div style="height: 200px; overflow: auto;">
+                    <asp:Label ID="LblMessaggioConferma" runat="server" Font-Size="Small" ForeColor="Red">  
+                    </asp:Label>
+                </div>
+                <span style="position: absolute; bottom: 10px; left: 10px; right: 0px;">
+                    <asp:Button ID="BtnConfermaSalvataggio" runat="server" 
+                        Text="Salva" 
+                        CssClass="BottoneSalva" 
+                        OnClick="BtnConfermaSalvataggio_Click" />
+                    &nbsp;
+                    <asp:Button ID="BtnChiudiConfermaSenzaSalvare" runat="server" Text="Chiudi" CssClass="BottoneChiudi" />
+                    
+                </span>
+            </div>
+        </div>
+    </asp:Panel>
 </asp:Content>
