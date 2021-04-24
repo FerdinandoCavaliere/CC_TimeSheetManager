@@ -462,7 +462,12 @@ namespace TimeSheetManager
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
                     Tasks t = e.Row.DataItem as Tasks;
-                    List<PreventivoTask> preventivo = tc.GetPreventivoGiornateByTaskId(t.Id);
+                    // List<PreventivoTask> preventivo = tc.GetPreventivoGiornateByTaskId(t.Id);
+
+                    List<PreventivoTask> preventivo = tc.GetPreventivoGiornateByTaskIdContrattoId(
+                        t.Id, 
+                        Convert.ToInt32(DdlContratti.SelectedValue));
+
                     ((ListView)e.Row.FindControl("ListViewGiorniPerFiguraInGriglia")).DataSource = preventivo;
                     ((ListView)e.Row.FindControl("ListViewGiorniPerFiguraInGriglia")).DataBind();
 

@@ -252,19 +252,67 @@ namespace TimeSheetManager.Classi
                         PreventivoTask nuovo = null;
                         foreach (PreventivoTask singolo in preventivoTmp)
                         {
+                            elencoDefinitivo.Add(new PreventivoTask
+                            {
+                                FigureProfessionali_FK = singolo.FigureProfessionali_FK,
+                                PreventivoGGUU = Math.Round(singolo.PreventivoGGUU, 2),
+                                giornateSpese = Math.Round(GetGiornateSpeseByTaskTipoRisorsa(idTask, singolo.FigureProfessionali_FK, context), 2)
+                            });
+                        }
+                    }
+                }
+
+                return elencoDefinitivo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<PreventivoTask> GetPreventivoGiornateByTaskIdContrattoId(Int32 idTask, Int32 idContratto)
+        {
+            try
+            {
+                List<PreventivoTask> elencoDefinitivo = new List<PreventivoTask>();
+
+                using (var context = new TimesheetEntities())
+                {
+                    // Ottengo tutte le figure professionali collegate al contratto
+                    var figure = context.FigureProfessionali.Where(f => f.Contratti_Fk == idContratto);
+
+                    // Ottengo tutto il prevetivato del task
+                    var preventivato = context.PreventivoTask.Where(p => p.Task_FK == idTask);
+
+                    // Vado in left join tra figure e preventivato
+                    var figureConPreventivo = from f in figure
+                                              join p in preventivato on f.Codice equals p.FigureProfessionali_FK into inner
+                                              from i in inner.DefaultIfEmpty()
+                                              select new
+                                              {
+                                                  FigureProfessionali_FK = f.Codice,
+                                                  PreventivoGGUU = i != null ? Math.Round(i.PreventivoGGUU, 2) : decimal.Zero
+                                              };
+                    if (figureConPreventivo != null)
+                    {
+                        PreventivoTask nuovo = null;
+                        foreach (var singolo in figureConPreventivo)
+                        {
                             nuovo = new PreventivoTask
                             {
                                 FigureProfessionali_FK = singolo.FigureProfessionali_FK,
                                 PreventivoGGUU = Math.Round(singolo.PreventivoGGUU, 2),
                                 giornateSpese = Math.Round(GetGiornateSpeseByTaskTipoRisorsa(idTask, singolo.FigureProfessionali_FK, context), 2)
                             };
-                            nuovo.giornateRestanti = Math.Round(nuovo.PreventivoGGUU - nuovo.giornateSpese, 2);
                             elencoDefinitivo.Add(nuovo);
                         }
                     }
                 }
 
-                return elencoDefinitivo;
+                return elencoDefinitivo?.Where(
+                    w => w.PreventivoGGUU != decimal.Zero || 
+                    w.giornateSpese != decimal.Zero || 
+                    w.giornateRestanti != decimal.Zero).ToList();
             }
             catch (Exception ex)
             {
